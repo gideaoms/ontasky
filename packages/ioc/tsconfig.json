@@ -1,7 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "jsx": "react",
     "target": "es2020",
     "module": "es2022",
     "esModuleInterop": true,
@@ -17,13 +16,9 @@
     "allowSyntheticDefaultImports": true,
     "preserveWatchOutput": true,
     "declaration": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "baseUrl": "src",
-    "paths": {
-      "@/*": [
-        "*"
-      ]
-    }
-  }
+    "outDir": "dist"
+  },
+  "include": [
+    "src"
+  ]
 }
