@@ -1,0 +1,17 @@
+version: '3.9'
+
+volumes:
+  ontasky_postgres:
+
+services:
+  ontasky_postgres:
+    container_name: ontasky_postgres
+    image: bitnami/postgresql:12.5.0
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRESQL_USERNAME: username
+      POSTGRESQL_PASSWORD: password
+      POSTGRESQL_DATABASE: database
+    volumes:
+      - ontasky_postgres:/bitnami/postgresql

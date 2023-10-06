@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Team {
+  id         String    @id @default(uuid()) @db.Uuid
+  name       String    @db.VarChar()
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+
+  users_on_teams UserOnTeam[]
+  tasks          Task[]
+
+  @@map("teams")
+}
+
+model User {
+  id                 String    @id @default(uuid()) @db.Uuid
+  email              String    @unique @db.VarChar()
+  password           String?   @db.VarChar()
+  is_email_activated Boolean
+  validation_code    String?   @db.VarChar()
+  created_at         DateTime  @default(now())
+  updated_at         DateTime? @updatedAt
+
+  users_on_teams UserOnTeam[]
+  tasks          Task[]
+  users_on_tasks UserOnTask[]
+
+  @@map("users")
+}
+
+enum UserOnTeamRole {
+  common
+  admin
+}
+
+model UserOnTeam {
+  id         String    @id @default(uuid()) @db.Uuid
+  user_id    String    @db.Uuid
+  team_id    String    @db.Uuid
+  roles      Json      @db.JsonB
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+
+  user User @relation(fields: [user_id], references: [id])
+  team Team @relation(fields: [team_id], references: [id])
+
+  @@unique([user_id, team_id])
+  @@map("users_on_teams")
+}
+
+enum TaskStatus {
+  awaiting
+  approved
+  disapproved
+}
+
+model Task {
+  id          String     @id @default(uuid()) @db.Uuid
+  owner_id    String     @db.Uuid
+  team_id     String     @db.Uuid
+  title       String     @db.VarChar()
+  description String?
+  status      TaskStatus
+  created_at  DateTime   @default(now())
+  updated_at  DateTime?  @updatedAt
+
+  owner          User         @relation(fields: [owner_id], references: [id])
+  team           Team         @relation(fields: [team_id], references: [id])
+  users_on_tasks UserOnTask[]
+
+  @@map("tasks")
+}
+
+enum UserOnTaskStatus {
+  awaiting
+  approved
+  disapproved
+}
+
+model UserOnTask {
+  id          String           @id @default(uuid()) @db.Uuid
+  user_id     String           @db.Uuid
+  task_id     String           @db.Uuid
+  description String?
+  status      UserOnTaskStatus
+  answered_at DateTime?
+  created_at  DateTime         @default(now())
+  updated_at  DateTime?        @updatedAt
+
+  user User @relation(fields: [user_id], references: [id])
+  task Task @relation(fields: [task_id], references: [id])
+
+  @@unique([user_id, task_id])
+  @@map("users_on_tasks")
+}
