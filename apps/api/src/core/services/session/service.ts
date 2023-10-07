@@ -1,7 +1,6 @@
-import { BadRequestError, UnauthorizedError } from "@/core/errors/module";
 import { UserMapper } from "@/core/mappers/module";
 import { Models } from "@/core/module";
-import { Providers, Repositories } from "@/core/module";
+import { Providers, Repositories, Errors } from "@/core/module";
 
 export class Service {
   constructor(
@@ -15,10 +14,10 @@ export class Service {
     const errorMessage = "Invalid credentials";
     const user = await this.userRepository.findByEmail(email);
     if (!user) {
-      return new BadRequestError.Error(errorMessage);
+      return new Errors.BadRequest.Error(errorMessage);
     }
     if (!user.isEmailActivated) {
-      return new BadRequestError.Error(
+      return new Errors.BadRequest.Error(
         "You have to activate your account before signing in."
       );
     }
@@ -27,7 +26,7 @@ export class Service {
       user.password
     );
     if (!isPasswordCorrect) {
-      return new BadRequestError.Error(errorMessage);
+      return new Errors.BadRequest.Error(errorMessage);
     }
     const token = this.tokenProvider.generate(user.id);
     const userWithToken = Models.User.build({ ...user, token });
@@ -37,7 +36,7 @@ export class Service {
   async show(authorization: string) {
     const user = await this.sessionProvider.findOne(authorization);
     if (!user) {
-      return new UnauthorizedError.Error();
+      return new Errors.Unauthorized.Error();
     }
     return UserMapper.toObject(user);
   }

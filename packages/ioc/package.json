@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsc --watch",
-    "build": "rimraf dist && tsup src/app.ts --format esm,cjs --dts"
+    "build": "rimraf dist && tsup src/app.ts --format esm --dts"
   },
   "keywords": [],
   "author": "Gideão",

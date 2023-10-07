@@ -1,2 +1,2 @@
-export * as UnauthorizedError from "./unauthorized/error";
-export * as BadRequestError from "./bad-request/error";
+export * as Unauthorized from "./unauthorized/error";
+export * as BadRequest from "./bad-request/error";

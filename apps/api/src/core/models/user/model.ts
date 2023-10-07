@@ -14,16 +14,18 @@ export type Model = Readonly<{
   roles: Role[];
 }>;
 
-export function build(user: Model) {
+export function build(user: Partial<Model>) {
   const parsed = z
     .object({
-      id: z.string(),
-      email: z.string().email(),
-      password: z.string(),
-      isEmailActivated: z.boolean(),
-      validationCode: z.string(),
-      token: z.string(),
-      roles: z.array(z.object({ name: z.string() })),
+      id: z.string().default(""),
+      email: z.string().default(""),
+      password: z.string().default(""),
+      isEmailActivated: z.boolean().default(false),
+      validationCode: z.string().default(""),
+      token: z.string().default(""),
+      roles: z
+        .array(z.object({ name: z.string() }))
+        .default([{ name: "common" }]),
     })
     .parse(user);
   return parsed satisfies Model;

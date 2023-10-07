@@ -1,20 +1,19 @@
 // src/app.ts
+import path from "path";
 import { Logger } from "@adonisjs/logger";
 import { Profiler } from "@adonisjs/profiler";
 import { Emitter } from "@adonisjs/events/build/src/Emitter";
 import { Database } from "@adonisjs/lucid/build/src/Database";
 var appRoot = "/home/gideaoms/Projects/ontasky/apps/api";
+var { default: knexfile } = await import(path.join(appRoot, "knexfile.ts"));
 var database = {
-  connection: "sqlite",
+  connection: knexfile.client,
   connections: {
-    sqlite: {
-      client: "sqlite",
-      connection: {
-        filename: "./db.sqlite"
-      },
-      useNullAsDefault: true,
+    [knexfile.client]: {
+      client: knexfile.client,
       healthCheck: false,
-      debug: false
+      debug: false,
+      connection: knexfile.connection
     }
   }
 };

@@ -1,3 +1,4 @@
+import path from "node:path";
 import { Logger } from "@adonisjs/logger";
 import { Profiler } from "@adonisjs/profiler";
 import { Emitter } from "@adonisjs/events/build/src/Emitter";
@@ -5,17 +6,15 @@ import { Database } from "@adonisjs/lucid/build/src/Database";
 import type { DatabaseConfig } from "@ioc:Adonis/Lucid/Database";
 
 const appRoot = "/home/gideaoms/Projects/ontasky/apps/api";
+const { default: knexfile } = await import(path.join(appRoot, "knexfile.ts"));
 const database: DatabaseConfig = {
-  connection: "sqlite",
+  connection: knexfile.client,
   connections: {
-    sqlite: {
-      client: "sqlite",
-      connection: {
-        filename: "./db.sqlite",
-      },
-      useNullAsDefault: true,
+    [knexfile.client]: {
+      client: knexfile.client,
       healthCheck: false,
       debug: false,
+      connection: knexfile.connection,
     },
   },
 };

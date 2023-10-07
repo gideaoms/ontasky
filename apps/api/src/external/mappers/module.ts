@@ -1,1 +1,1 @@
-export * as UserMapper from "./user/mapper";
+export * as User from "./user/mapper";

@@ -1,5 +1,4 @@
-import { UnauthorizedError } from "@/core/errors/module";
-import { Providers, Queries } from "@/core/module";
+import { Providers, Queries, Errors } from "@/core/module";
 
 export class Service {
   constructor(
@@ -10,7 +9,7 @@ export class Service {
   async index(authorization: string) {
     const user = await this.sessionProvider.findOne(authorization);
     if (!user) {
-      return new UnauthorizedError.Error();
+      return new Errors.Unauthorized.Error();
     }
     return this.teamQuery.findMany(user.id);
   }
