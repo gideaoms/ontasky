@@ -1,5 +1,3 @@
-import { UserMapper } from "@/core/mappers";
-import { UserModel } from "@/core/models";
 import { UserRepository } from "@/core/repositories";
 import {
   CryptoProvider,
@@ -7,6 +5,7 @@ import {
   SessionProvider,
 } from "@/core/providers";
 import { BadRequestError, UnauthorizedError } from "@/core/errors";
+import { UserObject } from "@/core/objects";
 
 export class Service {
   constructor(
@@ -35,8 +34,11 @@ export class Service {
       return new BadRequestError.Error(errorMessage);
     }
     const token = this.tokenProvider.generate(user.id);
-    const userWithToken = UserModel.build({ ...user, token });
-    return UserMapper.toObject(userWithToken);
+    return UserObject.build({
+      id: user.id,
+      email: user.email,
+      token,
+    });
   }
 
   async show(authorization: string) {
@@ -44,6 +46,10 @@ export class Service {
     if (!user) {
       return new UnauthorizedError.Error();
     }
-    return UserMapper.toObject(user);
+    return UserObject.build({
+      id: user.id,
+      email: user.email,
+      token: user.token,
+    });
   }
 }

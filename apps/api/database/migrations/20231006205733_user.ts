@@ -7,7 +7,7 @@ export async function up(knex: Knex) {
     table.string("password");
     table.boolean("is_email_activated").notNullable();
     table.string("validation_code");
-    table.timestamp("created_at");
+    table.timestamp("created_at").notNullable();
     table.timestamp("updated_at");
   });
 }

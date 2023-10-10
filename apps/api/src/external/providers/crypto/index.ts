@@ -11,3 +11,5 @@ export class Provider implements CryptoProvider.Provider {
     return bcryptjs.compare(plain, hashed);
   }
 }
+
+new Provider().hash("123456").then(console.log);

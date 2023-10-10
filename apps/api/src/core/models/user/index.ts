@@ -1,9 +1,5 @@
 import { z } from "zod";
 
-export type Role = Readonly<{
-  name: string;
-}>;
-
 export type Model = Readonly<{
   id: string;
   email: string;
@@ -11,7 +7,7 @@ export type Model = Readonly<{
   isEmailActivated: boolean;
   validationCode: string;
   token: string;
-  roles: Role[];
+  role: "common" | "admin";
 }>;
 
 export function build(user: Partial<Model>) {
@@ -23,9 +19,7 @@ export function build(user: Partial<Model>) {
       isEmailActivated: z.boolean().default(false),
       validationCode: z.string().default(""),
       token: z.string().default(""),
-      roles: z
-        .array(z.object({ name: z.string() }))
-        .default([{ name: "common" }]),
+      role: z.enum(["common", "admin"]).default("common"),
     })
     .parse(user);
   return parsed satisfies Model;
@@ -38,7 +32,7 @@ export function empty() {
     password: "",
     isEmailActivated: false,
     validationCode: "",
-    roles: [],
+    role: "common",
     token: "",
   } satisfies Model;
 }

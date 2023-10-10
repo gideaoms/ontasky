@@ -1,29 +1,30 @@
+import { UserModel } from "@/core/models";
 import { UserRepository } from "@/core/repositories";
-import { UserMapper } from "@/external/mappers";
-import { prisma } from "@/libs/prisma";
+import { db } from "@/libs/knex";
 
 export class Repository implements UserRepository.Repository {
   async findById(userId: string) {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-    if (!user) {
+    const [row] = await db.from("users").where("id", userId);
+    if (!row) {
       return null;
     }
-    return UserMapper.fromRecord(user);
+    return UserModel.build({
+      id: row.id,
+      email: row.email,
+      isEmailActivated: row.is_email_activated,
+    });
   }
 
   async findByEmail(email: string) {
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
-    if (!user) {
+    const [row] = await db.from("users").where("email", email);
+    if (!row) {
       return null;
     }
-    return UserMapper.fromRecord(user);
+    return UserModel.build({
+      id: row.id,
+      email: row.email,
+      password: row.password,
+      isEmailActivated: row.is_email_activated,
+    });
   }
 }

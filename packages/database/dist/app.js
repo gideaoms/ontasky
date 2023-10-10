@@ -29,6 +29,9 @@ var profiler = new Profiler(appRoot, logger, {
   whitelist: []
 });
 var emitter = new Emitter();
+emitter.on("db:query", function({ sql, bindings }) {
+  console.log(sql, bindings);
+});
 var database2 = new Database(database, logger, profiler, emitter);
 var app_default = database2;
 export {

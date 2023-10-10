@@ -1,10 +1,10 @@
-type Role = {
-  name: string;
-};
-
 export type Object = Partial<{
   id: string;
   email: string;
   token: string;
-  roles: Role[];
+  role: string;
 }>;
+
+export function build(user: Object) {
+  return user;
+}

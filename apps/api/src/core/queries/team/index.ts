@@ -1,7 +1,7 @@
-import { TeamObject, RoleObject } from "@/core/objects";
+import { TeamObject, UserObject } from "@/core/objects";
 
 export type Query = {
   findMany(
     userId: string
-  ): Promise<(TeamObject.Object & { role: RoleObject.Object })[]>;
+  ): Promise<(TeamObject.Object & { user: UserObject.Object })[]>;
 };

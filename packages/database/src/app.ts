@@ -31,6 +31,10 @@ const profiler = new Profiler(appRoot, logger, {
 });
 const emitter = new Emitter();
 
+emitter.on("db:query", function ({ sql, bindings }) {
+  console.log(sql, bindings);
+});
+
 const database2 = new Database(database, logger, profiler, emitter);
 
 export default database2;

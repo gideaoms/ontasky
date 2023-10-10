@@ -2,14 +2,23 @@ import crypto from "node:crypto";
 import { DateTime } from "luxon";
 import { BaseModel, beforeCreate, column } from "@clark/orm";
 
-export class Model extends BaseModel {
-  public static table = "teams";
+export class Entity extends BaseModel {
+  public static table = "users";
 
   @column({ isPrimary: true })
   public id!: string;
 
   @column()
-  public name!: string;
+  public email!: string;
+
+  @column()
+  public password!: string;
+
+  @column({ columnName: "is_activated_email" })
+  public isActivatedEmail!: string;
+
+  @column({ columnName: "validation_code" })
+  public validationCode!: string;
 
   @column.dateTime({ autoCreate: true })
   public createdAt!: DateTime;
@@ -18,7 +27,7 @@ export class Model extends BaseModel {
   public updatedAt!: DateTime;
 
   @beforeCreate()
-  public static setId(team: Model) {
+  public static setId(team: Entity) {
     team.id = crypto.randomUUID();
   }
 }
