@@ -13,6 +13,7 @@ export class Repository implements UserRepository.Repository {
       id: row.id,
       email: row.email,
       isEmailActivated: row.is_email_activated,
+      validationCode: row.validation_code,
     });
   }
 
@@ -26,6 +27,7 @@ export class Repository implements UserRepository.Repository {
       email: row.email,
       password: row.password,
       isEmailActivated: row.is_email_activated,
+      validationCode: row.validation_code,
     });
   }
 
@@ -54,7 +56,7 @@ export class Repository implements UserRepository.Repository {
       .table("users")
       .update({
         password: user.password,
-        validation_code: user.validationCode,
+        validation_code: user.validationCode || null,
         updated_at: new Date(),
       })
       .where("id", user.id)

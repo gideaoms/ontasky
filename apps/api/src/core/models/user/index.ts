@@ -17,7 +17,7 @@ export function build(user: Partial<Model>) {
       email: z.string().default(""),
       password: z.string().default(""),
       isEmailActivated: z.boolean().default(false),
-      validationCode: z.string().default(""),
+      validationCode: z.coerce.string().default(""),
       token: z.string().default(""),
       role: z.enum(["common", "admin"]).default("common"),
     })
@@ -35,4 +35,8 @@ export function empty() {
     role: "common",
     token: "",
   } satisfies Model;
+}
+
+export function isValidationCodeCorrect(user: Model, validationCode: string) {
+  return user.validationCode === validationCode;
 }
