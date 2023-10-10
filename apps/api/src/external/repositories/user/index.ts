@@ -1,6 +1,7 @@
 import { UserModel } from "@/core/models";
 import { UserRepository } from "@/core/repositories";
 import { db } from "@/libs/knex";
+import crypto from "node:crypto";
 
 export class Repository implements UserRepository.Repository {
   async findById(userId: string) {
@@ -20,6 +21,44 @@ export class Repository implements UserRepository.Repository {
     if (!row) {
       return null;
     }
+    return UserModel.build({
+      id: row.id,
+      email: row.email,
+      password: row.password,
+      isEmailActivated: row.is_email_activated,
+    });
+  }
+
+  async create(user: UserModel.Model) {
+    const [row] = await db
+      .insert({
+        id: crypto.randomUUID(),
+        email: user.email,
+        password: user.password,
+        is_email_activated: user.isEmailActivated,
+        validation_code: user.validationCode,
+        created_at: new Date(),
+      })
+      .into("users")
+      .returning("*");
+    return UserModel.build({
+      id: row.id,
+      email: row.email,
+      password: row.password,
+      isEmailActivated: row.is_email_activated,
+    });
+  }
+
+  async update(user: UserModel.Model) {
+    const [row] = await db
+      .table("users")
+      .update({
+        password: user.password,
+        validation_code: user.validationCode,
+        updated_at: new Date(),
+      })
+      .where("id", user.id)
+      .returning("*");
     return UserModel.build({
       id: row.id,
       email: row.email,
