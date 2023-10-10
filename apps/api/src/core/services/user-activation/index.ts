@@ -1,5 +1,6 @@
 import { BadRequestError } from "@/core/errors";
 import { UserModel } from "@/core/models";
+import { UserObject } from "@/core/objects";
 import { UserRepository } from "@/core/repositories";
 
 export class Service {
@@ -19,6 +20,10 @@ export class Service {
       validationCode: "",
       isEmailActivated: true,
     });
-    return this.userRepository.update(user2);
+    const user3 = await this.userRepository.update(user2);
+    return UserObject.build({
+      id: user3.id,
+      email: user3.email,
+    });
   }
 }
