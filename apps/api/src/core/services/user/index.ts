@@ -1,14 +1,17 @@
-import { BadRequestError } from "@/core/errors";
+import { BadRequestError, UnauthorizedError } from "@/core/errors";
 import { UserModel } from "@/core/models";
 import { UserObject } from "@/core/objects";
-import { CryptoProvider } from "@/core/providers";
+import { CryptoProvider, SessionOnTeamProvider } from "@/core/providers";
+import { UserQuery } from "@/core/queries";
 import { UserRepository } from "@/core/repositories";
 import crypto from "node:crypto";
 
 export class Service {
   constructor(
     private readonly cryptoProvider: CryptoProvider.Provider,
-    private readonly userRepository: UserRepository.Repository
+    private readonly userRepository: UserRepository.Repository,
+    private readonly sessionOnTeamProvider: SessionOnTeamProvider.Provider,
+    private readonly userQuery: UserQuery.Query
   ) {}
 
   async create(email: string, password: string) {
@@ -42,5 +45,16 @@ export class Service {
       id: user3.id,
       email: user3.email,
     });
+  }
+
+  async index(authorization: string, teamId: string) {
+    const user = await this.sessionOnTeamProvider.findOne(
+      authorization,
+      teamId
+    );
+    if (!user) {
+      return new UnauthorizedError.Error();
+    }
+    return this.userQuery.findMany(teamId, user.id);
   }
 }
