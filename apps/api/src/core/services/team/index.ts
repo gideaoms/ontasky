@@ -1,7 +1,11 @@
-import { NotFoundError, UnauthorizedError } from "@/core/errors";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} from "@/core/errors";
 import { TeamModel, UserModel } from "@/core/models";
 import { TeamObject } from "@/core/objects";
-import { SessionProvider } from "@/core/providers";
+import { SessionOnTeamProvider, SessionProvider } from "@/core/providers";
 import { TeamQuery } from "@/core/queries";
 import { TeamRepository } from "@/core/repositories";
 
@@ -9,7 +13,8 @@ export class Service {
   constructor(
     private readonly sessionProvider: SessionProvider.Provider,
     private readonly teamQuery: TeamQuery.Query,
-    private readonly teamRepository: TeamRepository.Repository
+    private readonly teamRepository: TeamRepository.Repository,
+    private readonly sessionOnTeamProvider: SessionOnTeamProvider.Provider
   ) {}
 
   async index(authorization: string) {
@@ -40,11 +45,14 @@ export class Service {
   }
 
   async show(authorization: string, teamId: string) {
-    const user = await this.sessionProvider.findOne(authorization);
+    const user = await this.sessionOnTeamProvider.findOne(
+      authorization,
+      teamId
+    );
     if (!user) {
       return new UnauthorizedError.Error();
     }
-    const team = await this.teamRepository.findById(teamId, user.id);
+    const team = await this.teamRepository.findById(teamId);
     if (!team) {
       return new NotFoundError.Error("Team not found.");
     }
@@ -55,11 +63,17 @@ export class Service {
   }
 
   async update(authorization: string, teamId: string, name: string) {
-    const user = await this.sessionProvider.findOne(authorization);
+    const user = await this.sessionOnTeamProvider.findOne(
+      authorization,
+      teamId
+    );
     if (!user) {
       return new UnauthorizedError.Error();
     }
-    const team = await this.teamRepository.findById(teamId, user.id);
+    if (!UserModel.isAdmin(user)) {
+      return new BadRequestError.Error("Only admin can update a team.");
+    }
+    const team = await this.teamRepository.findById(teamId);
     if (!team) {
       return new NotFoundError.Error("Team not found.");
     }

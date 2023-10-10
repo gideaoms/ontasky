@@ -25,7 +25,7 @@ export class Service {
         validationCode,
       });
       const user3 = await this.userRepository.create(user2);
-      // notify listeners
+      UserModel.subscribers.created.notify({ user: user3 });
       return UserObject.build({
         id: user3.id,
         email: user3.email,
@@ -40,7 +40,7 @@ export class Service {
       validationCode,
     });
     const user3 = await this.userRepository.update(user2);
-    // notify listeners
+    UserModel.subscribers.created.notify({ user: user3 });
     return UserObject.build({
       id: user3.id,
       email: user3.email,

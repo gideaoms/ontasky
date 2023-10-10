@@ -1,4 +1,4 @@
-import { UserModel } from "@/core/models";
+import { TeamModel, UserModel } from "@/core/models";
 import { UserRepository } from "@/core/repositories";
 import { db } from "@/libs/knex";
 import crypto from "node:crypto";
@@ -31,7 +31,37 @@ export class Repository implements UserRepository.Repository {
     });
   }
 
-  async create(user: UserModel.Model) {
+  async create(user: UserModel.Model, team?: TeamModel.Model) {
+    if (team) {
+      return db.transaction(async (trx) => {
+        const [row] = await trx
+          .insert({
+            id: crypto.randomUUID(),
+            email: user.email,
+            password: user.password,
+            is_email_activated: user.isEmailActivated,
+            validation_code: user.validationCode,
+            created_at: new Date(),
+          })
+          .into("users")
+          .returning("*");
+        await trx
+          .insert({
+            id: crypto.randomUUID(),
+            user_id: row.id,
+            team_id: team.id,
+            role: user.role,
+            created_at: new Date(),
+          })
+          .into("users_on_teams");
+        return UserModel.build({
+          id: row.id,
+          email: row.email,
+          password: row.password,
+          isEmailActivated: row.is_email_activated,
+        });
+      });
+    }
     const [row] = await db
       .insert({
         id: crypto.randomUUID(),

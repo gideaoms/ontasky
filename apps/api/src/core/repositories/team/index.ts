@@ -5,6 +5,6 @@ export type Repository = {
     team: TeamModel.Model,
     user: UserModel.Model
   ): Promise<TeamModel.Model>;
-  findById(teamId: string, userId: string): Promise<TeamModel.Model | null>;
+  findById(teamId: string): Promise<TeamModel.Model | null>;
   update(team: TeamModel.Model): Promise<TeamModel.Model>;
 };

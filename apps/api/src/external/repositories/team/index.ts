@@ -30,16 +30,8 @@ export class Repository implements TeamRepository.Repository {
     });
   }
 
-  async findById(teamId: string, userId: string) {
-    const [row] = await db
-      .select("teams.*")
-      .from("teams")
-      .innerJoin("users_on_teams", (query) => {
-        query
-          .on("users_on_teams.team_id", "=", "teams.id")
-          .andOn("users_on_teams.user_id", "=", db.raw("?", [userId]))
-          .andOn("users_on_teams.team_id", "=", db.raw("?", [teamId]));
-      });
+  async findById(teamId: string) {
+    const [row] = await db.from("teams").where("id", teamId);
     if (!row) {
       return null;
     }

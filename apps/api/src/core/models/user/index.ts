@@ -1,4 +1,15 @@
+import { Observer } from "@/observer";
 import { z } from "zod";
+import * as TeamModel from "../team";
+
+export const subscribers = {
+  addedOnTeam: new Observer<{
+    user: Model;
+    team: TeamModel.Model;
+    isNew: boolean;
+  }>(),
+  created: new Observer<{ user: Model }>(),
+};
 
 export type Model = Readonly<{
   id: string;
@@ -39,4 +50,8 @@ export function empty() {
 
 export function isValidationCodeCorrect(user: Model, validationCode: string) {
   return user.validationCode === validationCode;
+}
+
+export function isAdmin(user: Model) {
+  return user.role === "admin";
 }
