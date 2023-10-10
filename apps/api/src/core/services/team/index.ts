@@ -53,4 +53,24 @@ export class Service {
       name: team.name,
     });
   }
+
+  async update(authorization: string, teamId: string, name: string) {
+    const user = await this.sessionProvider.findOne(authorization);
+    if (!user) {
+      return new UnauthorizedError.Error();
+    }
+    const team = await this.teamRepository.findById(teamId, user.id);
+    if (!team) {
+      return new NotFoundError.Error("Team not found.");
+    }
+    const teamToUpdate = TeamModel.build({
+      id: team.id,
+      name,
+    });
+    const updatedTeam = await this.teamRepository.update(teamToUpdate);
+    return TeamObject.build({
+      id: updatedTeam.id,
+      name: updatedTeam.name,
+    });
+  }
 }

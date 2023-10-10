@@ -77,4 +77,30 @@ export default async function controller(fastify: FastifyInstance) {
       return replay.send(result);
     },
   });
+
+  fastify.withTypeProvider<TypeBoxTypeProvider>().route({
+    url: "/teams/:team_id",
+    method: "PUT",
+    schema: {
+      headers: Type.Object({
+        authorization: Type.String(),
+      }),
+      params: Type.Object({
+        team_id: Type.String({ format: "uuid" }),
+      }),
+      body: Type.Object({
+        name: Type.String(),
+      }),
+    },
+    async handler(request, replay) {
+      const { authorization } = request.headers;
+      const { team_id } = request.params;
+      const { name } = request.body;
+      const result = await service.update(authorization, team_id, name);
+      if (isError(result)) {
+        return replay.code(result.status).send({ message: result.message });
+      }
+      return replay.send(result);
+    },
+  });
 }

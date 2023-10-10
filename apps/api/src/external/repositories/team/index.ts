@@ -48,4 +48,16 @@ export class Repository implements TeamRepository.Repository {
       name: row.name,
     });
   }
+
+  async update(team: TeamModel.Model) {
+    const [row] = await db
+      .table("teams")
+      .update({ name: team.name, updated_at: new Date() })
+      .where("id", team.id)
+      .returning("*");
+    return TeamModel.build({
+      id: row.id,
+      name: row.name,
+    });
+  }
 }
