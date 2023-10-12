@@ -1,4 +1,4 @@
-import { CryptoProvider } from "@/core/providers";
+import { CryptoProvider } from "@/internal/providers";
 import bcryptjs from "bcryptjs";
 
 export class Provider implements CryptoProvider.Provider {

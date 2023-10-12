@@ -1,13 +1,9 @@
-import { Service } from "@/internal/services/user-on-team";
+import { SessionOnTeamProvider } from "@/external/factories/providers";
 import {
-  CryptoProvider,
-  SessionOnTeamProvider,
-} from "@/external/factories/providers";
-import {
-  TeamRepository,
+  TaskRepository,
   UserOnTeamRepository,
-  UserRepository,
 } from "@/external/factories/repositories";
+import { Service } from "@/internal/services/task";
 import { isError } from "@/utils";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
@@ -15,36 +11,39 @@ import { FastifyInstance } from "fastify";
 
 const service = new Service(
   SessionOnTeamProvider.Provider,
-  UserRepository.Repository,
-  CryptoProvider.Provider,
-  TeamRepository.Repository,
-  UserOnTeamRepository.Repository
+  UserOnTeamRepository.Repository,
+  TaskRepository.Repository
 );
 
 export default async function controller(fastify: FastifyInstance) {
   fastify.withTypeProvider<TypeBoxTypeProvider>().route({
-    url: "/teams/:team_id/users",
+    url: "/tasks",
     method: "POST",
     schema: {
       headers: Type.Object({
         authorization: Type.String(),
       }),
       body: Type.Object({
-        email: Type.String({ format: "email" }),
-      }),
-      params: Type.Object({
         team_id: Type.String({ format: "uuid" }),
+        title: Type.String(),
+        description: Type.String(),
+        approvers: Type.Array(
+          Type.Object({ id: Type.String({ format: "uuid" }) })
+        ),
       }),
     },
     async handler(request, replay) {
       const { authorization } = request.headers;
-      const { email } = request.body;
-      const { team_id } = request.params;
-      const result = await service.create(authorization, team_id, email);
+      const { team_id, title, description, approvers } = request.body;
+      const result = await service.create(
+        authorization,
+        team_id,
+        title,
+        description,
+        approvers
+      );
       if (isError(result)) {
-        return replay.code(result.status).send({
-          message: result.message,
-        });
+        return replay.code(result.status).send({ message: result.message });
       }
       return replay.send(result);
     },

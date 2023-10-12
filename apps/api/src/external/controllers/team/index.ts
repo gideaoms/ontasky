@@ -1,16 +1,20 @@
-import { Service } from "@/core/services/team";
+import { Service } from "@/internal/services/team";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
 import { FastifyInstance } from "fastify";
 import { isError } from "@/utils";
-import { SessionProvider } from "@/external/factories/providers";
+import {
+  SessionOnTeamProvider,
+  SessionProvider,
+} from "@/external/factories/providers";
 import { TeamRepository } from "@/external/factories/repositories";
 import { TeamQuery } from "@/external/factories/queries";
 
 const service = new Service(
   SessionProvider.Provider,
   TeamQuery.Query,
-  TeamRepository.Repository
+  TeamRepository.Repository,
+  SessionOnTeamProvider.Provider
 );
 
 export default async function controller(fastify: FastifyInstance) {

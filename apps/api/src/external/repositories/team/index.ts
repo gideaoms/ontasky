@@ -1,10 +1,10 @@
-import { UserModel, TeamModel } from "@/core/models";
-import { TeamRepository } from "@/core/repositories";
+import { UserModel, TeamModel, RoleModel } from "@/internal/models";
+import { TeamRepository } from "@/internal/repositories";
 import { db } from "@/libs/knex";
 import crypto from "node:crypto";
 
 export class Repository implements TeamRepository.Repository {
-  create(team: TeamModel.Model, user: UserModel.Model) {
+  create(team: TeamModel.Model, user: UserModel.Model, role: RoleModel.Model) {
     return db.transaction(async (trx) => {
       const [createdTeam] = await trx
         .insert({
@@ -19,7 +19,7 @@ export class Repository implements TeamRepository.Repository {
           id: crypto.randomUUID(),
           user_id: user.id,
           team_id: createdTeam.id,
-          role: user.role,
+          role: role.name,
           created_at: new Date(),
         })
         .into("users_on_teams");

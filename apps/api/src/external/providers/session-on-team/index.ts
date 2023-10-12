@@ -1,11 +1,11 @@
-import { UserModel } from "@/core/models";
-import { SessionOnTeamProvider, TokenProvider } from "@/core/providers";
+import { RoleModel, UserModel } from "@/internal/models";
+import { SessionOnTeamProvider, TokenProvider } from "@/internal/providers";
 import { db } from "@/libs/knex";
 
 export class Provider implements SessionOnTeamProvider.Provider {
   constructor(private readonly tokenProvider: TokenProvider.Provider) {}
 
-  async findOne(authorization: string, teamId: string) {
+  async findOne(authorization: string, teamId: string, role?: RoleModel.Model) {
     const [, token] = authorization.split(" ");
     if (!token) {
       return null;
@@ -21,6 +21,9 @@ export class Provider implements SessionOnTeamProvider.Provider {
         query
           .on("users_on_teams.user_id", "=", "users.id")
           .andOn("users_on_teams.team_id", "=", db.raw("?", [teamId]));
+        if (role && !RoleModel.isCommon(role)) {
+          query.andOn("users_on_teams.role", "=", db.raw("?", [role.name]));
+        }
       });
     if (!row) {
       return null;
@@ -28,7 +31,6 @@ export class Provider implements SessionOnTeamProvider.Provider {
     return UserModel.build({
       id: row.id,
       email: row.email,
-      role: row.role,
     });
   }
 }

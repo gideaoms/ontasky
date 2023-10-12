@@ -1,5 +1,5 @@
-import { TeamObject, UserObject } from "@/core/objects";
-import { TeamQuery } from "@/core/queries";
+import { TeamObject, UserObject } from "@/internal/objects";
+import { TeamQuery } from "@/internal/queries";
 import { db } from "@/libs/knex";
 
 export class Query implements TeamQuery.Query {

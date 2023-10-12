@@ -1,10 +1,10 @@
-import { TeamModel, UserModel } from "@/core/models";
-import { UserOnTeamRepository } from "@/core/repositories";
+import { RoleModel, TeamModel, UserModel } from "@/internal/models";
+import { UserOnTeamRepository } from "@/internal/repositories";
 import { db } from "@/libs/knex";
 import crypto from "node:crypto";
 
 export class Repository implements UserOnTeamRepository.Repository {
-  async userOnTeamExists(userId: string, teamId: string) {
+  async findByPk(userId: string, teamId: string) {
     const [row] = await db
       .from("users_on_teams")
       .where("user_id", userId)
@@ -15,13 +15,17 @@ export class Repository implements UserOnTeamRepository.Repository {
     return true;
   }
 
-  async create(user: UserModel.Model, team: TeamModel.Model) {
+  async create(
+    user: UserModel.Model,
+    team: TeamModel.Model,
+    role: RoleModel.Model
+  ) {
     await db
       .insert({
         id: crypto.randomUUID(),
         user_id: user.id,
         team_id: team.id,
-        role: user.role,
+        role,
         created_at: new Date(),
       })
       .into("users_on_teams");

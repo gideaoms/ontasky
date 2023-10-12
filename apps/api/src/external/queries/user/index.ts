@@ -1,5 +1,5 @@
-import { UserObject } from "@/core/objects";
-import { UserQuery } from "@/core/queries";
+import { UserObject } from "@/internal/objects";
+import { UserQuery } from "@/internal/queries";
 import { db } from "@/libs/knex";
 
 export class Query implements UserQuery.Query {
