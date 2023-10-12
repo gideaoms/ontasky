@@ -40,4 +40,26 @@ export class Repository implements AnswerRepository.Repository {
       })
     );
   }
+
+  async update(answer: AnswerModel.Model) {
+    const [row] = await db
+      .table("users_on_tasks")
+      .update({
+        description: answer.description,
+        status: answer.status,
+        answered_at: answer.answeredAt,
+        updated_at: new Date(),
+      })
+      .where("user_id", answer.userId)
+      .andWhere("task_id", answer.taskId)
+      .returning("*");
+    return AnswerModel.build({
+      id: row.id,
+      userId: row.user_id,
+      taskId: row.task_id,
+      description: row.description,
+      status: row.status,
+      answeredAt: row.answered_at,
+    });
+  }
 }

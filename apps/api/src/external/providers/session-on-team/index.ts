@@ -15,8 +15,10 @@ export class Provider implements SessionOnTeamProvider.Provider {
       return null;
     }
     const [row] = await db
-      .select(["users.*", "users_on_teams.role"])
+      .select("users.*", "users_on_teams.role")
       .from("users")
+      .where("users.id", userId)
+      .limit(1)
       .innerJoin("users_on_teams", (query) => {
         query
           .on("users_on_teams.user_id", "=", "users.id")

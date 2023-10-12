@@ -6,4 +6,5 @@ export type Repository = {
     approvers: Array<{ id: string }>
   ): Promise<AnswerModel.Model[]>;
   findByPk(userId: string, taskId: string): Promise<AnswerModel.Model | null>;
+  update(answer: AnswerModel.Model): Promise<AnswerModel.Model>;
 };

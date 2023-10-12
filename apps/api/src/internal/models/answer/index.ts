@@ -30,3 +30,7 @@ export function build(answer: Partial<Model>) {
 export function isAwaiting(answer: Model) {
   return answer.status === "awaiting";
 }
+
+export function isApproved(answer: Model) {
+  return answer.status === "approved";
+}
