@@ -32,7 +32,7 @@ export class Service {
       return new BadRequestError.Error("Your are not an approver.");
     }
     if (AnswerModel.isApproved(answer1)) {
-      return new BadRequestError.Error("You have already approved this task.");
+      return new BadRequestError.Error("You have already answered this task.");
     }
     const answer2 = AnswerModel.build({
       userId: user1.id,
