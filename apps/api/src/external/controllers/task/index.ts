@@ -1,4 +1,5 @@
 import { SessionOnTeamProvider } from "@/external/factories/providers";
+import { TaskQuery } from "@/external/factories/queries";
 import {
   AnswerRepository,
   TaskRepository,
@@ -14,7 +15,8 @@ const service = new Service(
   SessionOnTeamProvider.Provider,
   UserOnTeamRepository.Repository,
   TaskRepository.Repository,
-  AnswerRepository.Repository
+  AnswerRepository.Repository,
+  TaskQuery.Query
 );
 
 export default async function controller(fastify: FastifyInstance) {
@@ -82,6 +84,29 @@ export default async function controller(fastify: FastifyInstance) {
         description,
         approvers
       );
+      if (isError(result)) {
+        return replay.code(result.status).send({ message: result.message });
+      }
+      return replay.send(result);
+    },
+  });
+
+  fastify.withTypeProvider<TypeBoxTypeProvider>().route({
+    url: "/tasks",
+    method: "GET",
+    schema: {
+      headers: Type.Object({
+        authorization: Type.String(),
+      }),
+      querystring: Type.Object({
+        team_id: Type.String({ format: "uuid" }),
+        by: Type.Union([Type.Literal("owner"), Type.Literal("approver")]),
+      }),
+    },
+    async handler(request, replay) {
+      const { authorization } = request.headers;
+      const { team_id, by } = request.query;
+      const result = await service.index(authorization, team_id, by);
       if (isError(result)) {
         return replay.code(result.status).send({ message: result.message });
       }

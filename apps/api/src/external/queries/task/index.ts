@@ -20,7 +20,7 @@ export class Query implements TaskQuery.Query {
       );
     }
     const rows = await db
-      .select("*")
+      .select("tasks.*", "users_on_tasks.answered_at")
       .from("tasks")
       .where("team_id", teamId)
       .orderBy("created_at", "desc")
@@ -33,6 +33,8 @@ export class Query implements TaskQuery.Query {
       TaskObject.build({
         id: row.id,
         title: row.title,
+        status: row.status,
+        answeredAt: row.answered_at,
       })
     );
   }
