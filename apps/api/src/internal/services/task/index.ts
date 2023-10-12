@@ -1,6 +1,7 @@
 import { BadRequestError, UnauthorizedError } from "@/internal/errors";
 import { AnswerModel, TaskModel } from "@/internal/models";
 import { SessionOnTeamProvider } from "@/internal/providers";
+import { TaskQuery } from "@/internal/queries";
 import {
   AnswerRepository,
   TaskRepository,
@@ -16,7 +17,8 @@ export class Service {
     private readonly sessionOnTeamProvider: SessionOnTeamProvider.Provider,
     private readonly userOnTeamRepository: UserOnTeamRepository.Repository,
     private readonly taskRepository: TaskRepository.Repository,
-    private readonly answerRepository: AnswerRepository.Repository
+    private readonly answerRepository: AnswerRepository.Repository,
+    private readonly taskQuery: TaskQuery.Query
   ) {}
 
   async create(
@@ -111,5 +113,20 @@ export class Service {
     }
     const task2 = TaskModel.build({ id: taskId, title, description });
     return this.taskRepository.update(task2, addedAnswers, removedAnswers);
+  }
+
+  async index(
+    authentication: string,
+    teamId: string,
+    by: "owner" | "approver"
+  ) {
+    const user = await this.sessionOnTeamProvider.findOne(
+      authentication,
+      teamId
+    );
+    if (!user) {
+      return new UnauthorizedError.Error();
+    }
+    return this.taskQuery.findMany(teamId, user.id, by);
   }
 }
