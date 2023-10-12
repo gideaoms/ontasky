@@ -1,4 +1,8 @@
-import { BadRequestError, UnauthorizedError } from "@/internal/errors";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} from "@/internal/errors";
 import { AnswerModel, TaskModel } from "@/internal/models";
 import { SessionOnTeamProvider } from "@/internal/providers";
 import { TaskQuery } from "@/internal/queries";
@@ -115,18 +119,34 @@ export class Service {
     return this.taskRepository.update(task2, addedAnswers, removedAnswers);
   }
 
-  async index(
-    authentication: string,
-    teamId: string,
-    by: "owner" | "approver"
-  ) {
+  async index(authorization: string, teamId: string, by: "owner" | "approver") {
     const user = await this.sessionOnTeamProvider.findOne(
-      authentication,
+      authorization,
       teamId
     );
     if (!user) {
       return new UnauthorizedError.Error();
     }
     return this.taskQuery.findMany(teamId, user.id, by);
+  }
+
+  async show(
+    authorization: string,
+    teamId: string,
+    taskId: string,
+    by: "owner" | "approver"
+  ) {
+    const user = await this.sessionOnTeamProvider.findOne(
+      authorization,
+      teamId
+    );
+    if (!user) {
+      return new UnauthorizedError.Error();
+    }
+    const task = await this.taskQuery.findOne(taskId, teamId, user.id, by);
+    if (!task) {
+      return new NotFoundError.Error("Task not found.");
+    }
+    return task;
   }
 }

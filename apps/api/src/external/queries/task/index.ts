@@ -38,4 +38,43 @@ export class Query implements TaskQuery.Query {
       })
     );
   }
+
+  async findOne(
+    taskId: string,
+    teamId: string,
+    userId: string,
+    by: "owner" | "approver"
+  ) {
+    if (by === "owner") {
+      const [row] = await db
+        .from("tasks")
+        .where("id", taskId)
+        .andWhere("owner_id", userId)
+        .andWhere("team_id", teamId);
+      if (!row) {
+        return null;
+      }
+      return TaskObject.build({
+        id: row.id,
+        title: row.title,
+      });
+    }
+    const [row] = await db
+      .select("tasks.*")
+      .from("tasks")
+      .where("tasks.id", taskId)
+      .andWhere("tasks.team_id", teamId)
+      .innerJoin("users_on_tasks", (query) => {
+        query
+          .on("users_on_tasks.task_id", "=", "tasks.id")
+          .andOn("users_on_tasks.user_id", "=", db.raw("?", [userId]));
+      });
+    if (!row) {
+      return null;
+    }
+    return TaskObject.build({
+      id: row.id,
+      title: row.title,
+    });
+  }
 }

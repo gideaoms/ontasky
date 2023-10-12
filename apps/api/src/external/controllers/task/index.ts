@@ -113,4 +113,32 @@ export default async function controller(fastify: FastifyInstance) {
       return replay.send(result);
     },
   });
+
+  fastify.withTypeProvider<TypeBoxTypeProvider>().route({
+    url: "/tasks/:task_id",
+    method: "GET",
+    schema: {
+      headers: Type.Object({
+        authorization: Type.String(),
+      }),
+
+      params: Type.Object({
+        task_id: Type.String({ format: "uuid" }),
+      }),
+      querystring: Type.Object({
+        team_id: Type.String({ format: "uuid" }),
+        by: Type.Union([Type.Literal("owner"), Type.Literal("approver")]),
+      }),
+    },
+    async handler(request, replay) {
+      const { authorization } = request.headers;
+      const { task_id } = request.params;
+      const { team_id, by } = request.query;
+      const result = await service.show(authorization, team_id, task_id, by);
+      if (isError(result)) {
+        return replay.code(result.status).send({ message: result.message });
+      }
+      return replay.send(result);
+    },
+  });
 }

@@ -6,4 +6,10 @@ export type Query = {
     userId: string,
     by: "owner" | "approver"
   ): Promise<TaskObject.Object[]>;
+  findOne(
+    taskId: string,
+    teamId: string,
+    userId: string,
+    by: "owner" | "approver"
+  ): Promise<TaskObject.Object | null>;
 };
