@@ -1,7 +1,11 @@
 import { BadRequestError, UnauthorizedError } from "@/internal/errors";
 import { AnswerModel, TaskModel } from "@/internal/models";
 import { SessionOnTeamProvider } from "@/internal/providers";
-import { TaskRepository, UserOnTeamRepository } from "@/internal/repositories";
+import {
+  AnswerRepository,
+  TaskRepository,
+  UserOnTeamRepository,
+} from "@/internal/repositories";
 
 type Approver = {
   id: string;
@@ -11,7 +15,8 @@ export class Service {
   constructor(
     private readonly sessionOnTeamProvider: SessionOnTeamProvider.Provider,
     private readonly userOnTeamRepository: UserOnTeamRepository.Repository,
-    private readonly taskRepository: TaskRepository.Repository
+    private readonly taskRepository: TaskRepository.Repository,
+    private readonly answerRepository: AnswerRepository.Repository
   ) {}
 
   async create(
@@ -51,5 +56,60 @@ export class Service {
       status: "awaiting",
     });
     return this.taskRepository.create(task, answers);
+  }
+
+  async update(
+    authorization: string,
+    teamId: string,
+    taskId: string,
+    title: string,
+    description: string,
+    approvers: Approver[]
+  ) {
+    const user = await this.sessionOnTeamProvider.findOne(
+      authorization,
+      teamId
+    );
+    if (!user) {
+      return new UnauthorizedError.Error();
+    }
+    const task1 = await this.taskRepository.findById(taskId);
+    if (!task1) {
+      return new BadRequestError.Error("Task not found.");
+    }
+    const removedAnswers = await this.answerRepository.findManyNotIn(
+      taskId,
+      approvers
+    );
+    for (const removedAnswer of removedAnswers) {
+      if (!AnswerModel.isAwaiting(removedAnswer)) {
+        return new BadRequestError.Error(
+          "You can only remove approvers who has not answered yet."
+        );
+      }
+    }
+    const addedAnswers: AnswerModel.Model[] = [];
+    for (const approver1 of approvers) {
+      const approver2 = await this.userOnTeamRepository.findByPk(
+        approver1.id,
+        teamId
+      );
+      if (!approver2) {
+        return new BadRequestError.Error("Approver not found.");
+      }
+      const answer1 = await this.answerRepository.findByPk(
+        approver1.id,
+        taskId
+      );
+      if (!answer1) {
+        const answer2 = AnswerModel.build({
+          userId: approver1.id,
+          status: "awaiting",
+        });
+        addedAnswers.push(answer2);
+      }
+    }
+    const task2 = TaskModel.build({ id: taskId, title, description });
+    return this.taskRepository.update(task2, addedAnswers, removedAnswers);
   }
 }

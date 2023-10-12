@@ -1,5 +1,6 @@
 import { SessionOnTeamProvider } from "@/external/factories/providers";
 import {
+  AnswerRepository,
   TaskRepository,
   UserOnTeamRepository,
 } from "@/external/factories/repositories";
@@ -12,7 +13,8 @@ import { FastifyInstance } from "fastify";
 const service = new Service(
   SessionOnTeamProvider.Provider,
   UserOnTeamRepository.Repository,
-  TaskRepository.Repository
+  TaskRepository.Repository,
+  AnswerRepository.Repository
 );
 
 export default async function controller(fastify: FastifyInstance) {
@@ -38,6 +40,44 @@ export default async function controller(fastify: FastifyInstance) {
       const result = await service.create(
         authorization,
         team_id,
+        title,
+        description,
+        approvers
+      );
+      if (isError(result)) {
+        return replay.code(result.status).send({ message: result.message });
+      }
+      return replay.send(result);
+    },
+  });
+
+  fastify.withTypeProvider<TypeBoxTypeProvider>().route({
+    url: "/tasks/:task_id",
+    method: "PUT",
+    schema: {
+      headers: Type.Object({
+        authorization: Type.String(),
+      }),
+      params: Type.Object({
+        task_id: Type.String({ format: "uuid" }),
+      }),
+      body: Type.Object({
+        team_id: Type.String({ format: "uuid" }),
+        title: Type.String(),
+        description: Type.String(),
+        approvers: Type.Array(
+          Type.Object({ id: Type.String({ format: "uuid" }) })
+        ),
+      }),
+    },
+    async handler(request, replay) {
+      const { authorization } = request.headers;
+      const { task_id } = request.params;
+      const { team_id, title, description, approvers } = request.body;
+      const result = await service.update(
+        authorization,
+        team_id,
+        task_id,
         title,
         description,
         approvers

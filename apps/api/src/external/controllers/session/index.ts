@@ -27,9 +27,6 @@ export default async function controller(fastify: FastifyInstance) {
         password: Type.String(),
       }),
     },
-    async preHandler() {
-      console.log("pre handler");
-    },
     async handler(request, replay) {
       const { email, password } = request.body;
       const result = await service.create(email, password);
