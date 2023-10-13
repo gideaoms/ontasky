@@ -1,7 +1,7 @@
 "use client";
 
-import { TaskContext } from "@/core/contexts/mod";
-import { TaskRepository } from "@/external/repositories/mod";
+import { TaskContext } from "@/core/contexts";
+import { TaskRepository } from "@/external/repositories";
 import React from "react";
 
 const Context = React.createContext<TaskContext.Props>(null!);

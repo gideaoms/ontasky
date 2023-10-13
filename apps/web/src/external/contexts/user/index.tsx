@@ -1,7 +1,7 @@
 "use client";
 
-import { UserContext } from "@/core/contexts/mod";
-import { UserRepository } from "@/external/repositories/mod";
+import { UserContext } from "@/core/contexts";
+import { UserRepository } from "@/external/repositories";
 import React from "react";
 
 const Context = React.createContext<UserContext.Props>(null!);

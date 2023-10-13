@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/atoms/button";
 import { Message } from "@/components/atoms/message";
-import { Input } from "@/components/atoms/mod";
-import { UserContext } from "@/external/contexts/mod";
+import { Input } from "@/components/atoms";
+import { UserContext } from "@/external/contexts";
 import { isError } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";

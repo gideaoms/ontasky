@@ -1,7 +1,7 @@
 "use client";
 
-import { TodoContext } from "@/core/contexts/mod";
-import { TodoRepository } from "@/external/repositories/mod";
+import { TodoContext } from "@/core/contexts";
+import { TodoRepository } from "@/external/repositories";
 import React from "react";
 
 const Context = React.createContext<TodoContext.Props>(null!);

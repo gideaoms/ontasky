@@ -1,5 +1,5 @@
 import List from "@/components/organisms/team/list";
-import { TeamRepository } from "@/external/repositories/mod";
+import { TeamRepository } from "@/external/repositories";
 
 const teamRepository = new TeamRepository.Repository();
 

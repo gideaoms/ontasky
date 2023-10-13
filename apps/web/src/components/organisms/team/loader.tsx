@@ -1,7 +1,7 @@
 import { Message } from "@/components/atoms/message";
 import { Form } from "@/components/organisms/team/form";
 import { TeamModel } from "@/core/models";
-import { TeamRepository } from "@/core/repositories/mod";
+import { TeamRepository } from "@/core/repositories";
 import { isError } from "@/utils";
 import { match, P } from "ts-pattern";
 

@@ -1,5 +1,5 @@
 import { Form } from "@/components/organisms/home/form";
-import { TeamRepository } from "@/core/repositories/mod";
+import { TeamRepository } from "@/core/repositories";
 import Link from "next/link";
 import { Fragment } from "react";
 import { match } from "ts-pattern";

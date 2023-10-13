@@ -1,6 +1,6 @@
 import { TaskModel, UserModel } from "@/core/models";
 import { TaskObject, UserObject } from "@/core/objects";
-import { TaskRepository } from "@/core/repositories/mod";
+import { TaskRepository } from "@/core/repositories";
 import { api } from "@/external/libs/api";
 import { isOkStatus } from "@/utils";
 import { P, match } from "ts-pattern";

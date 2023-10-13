@@ -1,7 +1,7 @@
 "use client";
 
-import { TeamContext } from "@/core/contexts/mod";
-import { TeamRepository } from "@/external/repositories/mod";
+import { TeamContext } from "@/core/contexts";
+import { TeamRepository } from "@/external/repositories";
 import React from "react";
 
 const Context = React.createContext<TeamContext.Props>(null!);

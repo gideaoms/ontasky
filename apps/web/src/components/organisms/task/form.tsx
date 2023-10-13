@@ -2,9 +2,9 @@
 
 import { Button, button } from "@/components/atoms/button";
 import { Checkbox } from "@/components/atoms/checkbox";
-import { Input } from "@/components/atoms/mod";
+import { Input } from "@/components/atoms";
 import { TaskModel, UserModel } from "@/core/models";
-import { TaskContext } from "@/external/contexts/mod";
+import { TaskContext } from "@/external/contexts";
 import { isError } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";

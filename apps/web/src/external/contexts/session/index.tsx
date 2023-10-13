@@ -1,9 +1,9 @@
 "use client";
 
 import { COOKIE_NAME } from "@/constants";
-import { SessionContext } from "@/core/contexts/mod";
+import { SessionContext } from "@/core/contexts";
 import { TeamModel, UserModel } from "@/core/models";
-import { SessionRepository } from "@/external/repositories/mod";
+import { SessionRepository } from "@/external/repositories";
 import { isError } from "@/utils";
 import { useRouter } from "next/navigation";
 import React from "react";

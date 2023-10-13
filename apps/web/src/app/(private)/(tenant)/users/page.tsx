@@ -1,5 +1,5 @@
 import List from "@/components/organisms/user/list";
-import { UserRepository } from "@/external/repositories/mod";
+import { UserRepository } from "@/external/repositories";
 
 const userRepository = new UserRepository.Repository();
 

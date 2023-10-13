@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/atoms/button";
-import { SessionContext } from "@/external/contexts/mod";
+import { SessionContext } from "@/external/contexts";
 import { useState } from "react";
 
 export function SignOut() {

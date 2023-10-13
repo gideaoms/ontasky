@@ -1,5 +1,5 @@
 import { Loader } from "@/components/organisms/task/loader";
-import { TaskRepository, UserRepository } from "@/external/repositories/mod";
+import { TaskRepository, UserRepository } from "@/external/repositories";
 
 const taskRepository = new TaskRepository.Repository();
 const userRepository = new UserRepository.Repository();

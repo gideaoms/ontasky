@@ -1,5 +1,5 @@
 import List from "@/components/organisms/todo/list";
-import { TodoRepository } from "@/external/repositories/mod";
+import { TodoRepository } from "@/external/repositories";
 
 const todoRepository = new TodoRepository.Repository();
 

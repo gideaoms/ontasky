@@ -1,6 +1,6 @@
 import { button } from "@/components/atoms/button";
 import { Message } from "@/components/atoms/message";
-import { TaskRepository } from "@/core/repositories/mod";
+import { TaskRepository } from "@/core/repositories";
 import { isError } from "@/utils";
 import {
   ClipboardEdit,
@@ -16,8 +16,7 @@ export default async function List(props: {
   taskRepository: TaskRepository.Repository;
   currentTeamId: string;
 }) {
-  const by = "owner";
-  const tasks = await props.taskRepository.findMany(props.currentTeamId, by);
+  const tasks = await props.taskRepository.findMany(props.currentTeamId);
   if (isError(tasks)) {
     return <Message variant="warning">{tasks.message}</Message>;
   }

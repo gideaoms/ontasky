@@ -1,5 +1,5 @@
 import { button } from "@/components/atoms/button";
-import { UserRepository } from "@/core/repositories/mod";
+import { UserRepository } from "@/core/repositories";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 

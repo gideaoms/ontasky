@@ -1,9 +1,9 @@
 "use client";
 
 import { Button, button } from "@/components/atoms/button";
-import { Input } from "@/components/atoms/mod";
+import { Input } from "@/components/atoms";
 import { TaskModel, TodoModel } from "@/core/models";
-import { TodoContext } from "@/external/contexts/mod";
+import { TodoContext } from "@/external/contexts";
 import { isError } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";

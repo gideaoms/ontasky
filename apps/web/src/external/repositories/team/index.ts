@@ -1,5 +1,5 @@
 import { RoleModel, TeamModel } from "@/core/models";
-import { TeamRepository } from "@/core/repositories/mod";
+import { TeamRepository } from "@/core/repositories";
 import { api } from "@/external/libs/api";
 import { TeamObject } from "@/core/objects";
 import { isOkStatus } from "@/utils";

@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/atoms/button";
-import { Input } from "@/components/atoms/mod";
-import { UserContext } from "@/external/contexts/mod";
+import { Input } from "@/components/atoms";
+import { UserContext } from "@/external/contexts";
 import { isError } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";

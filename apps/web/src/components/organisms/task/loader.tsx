@@ -1,7 +1,7 @@
 import { Message } from "@/components/atoms/message";
 import { Form } from "@/components/organisms/task/form";
 import { TaskModel } from "@/core/models";
-import { TaskRepository, UserRepository } from "@/core/repositories/mod";
+import { TaskRepository, UserRepository } from "@/core/repositories";
 import { isError } from "@/utils";
 import { match, P } from "ts-pattern";
 
@@ -13,8 +13,7 @@ export async function Loader(props: {
 }) {
   const task = await match(props.taskId)
     .with(P.string, (taskId) => {
-      const by = "owner";
-      return props.taskRepository.findById(taskId, props.currentTeamId, by);
+      return props.taskRepository.findById(taskId, props.currentTeamId);
     })
     .otherwise(function () {
       return Object.assign(TaskModel.empty(), {

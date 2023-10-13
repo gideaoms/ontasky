@@ -1,7 +1,7 @@
 import { Message } from "@/components/atoms/message";
 import { Form } from "@/components/organisms/todo/form";
 import { TodoModel } from "@/core/models";
-import { TodoRepository } from "@/core/repositories/mod";
+import { TodoRepository } from "@/core/repositories";
 import { isError } from "@/utils";
 import { match, P } from "ts-pattern";
 

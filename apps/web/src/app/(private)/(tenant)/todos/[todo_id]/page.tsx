@@ -1,5 +1,5 @@
 import { Loader } from "@/components/organisms/todo/loader";
-import { TodoRepository } from "@/external/repositories/mod";
+import { TodoRepository } from "@/external/repositories";
 
 const todoRepository = new TodoRepository.Repository();
 

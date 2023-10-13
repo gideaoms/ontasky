@@ -1,6 +1,6 @@
 import { button } from "@/components/atoms/button";
 import { EditLink } from "@/components/organisms/team/components/edit-link";
-import { TeamRepository } from "@/core/repositories/mod";
+import { TeamRepository } from "@/core/repositories";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 

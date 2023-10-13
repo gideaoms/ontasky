@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/atoms/button";
-import { Input } from "@/components/atoms/mod";
+import { Input } from "@/components/atoms";
 import { TeamModel } from "@/core/models";
-import { TeamContext } from "@/external/contexts/mod";
+import { TeamContext } from "@/external/contexts";
 import { isError } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";

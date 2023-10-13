@@ -1,5 +1,5 @@
 import List from "@/components/organisms/task/list";
-import { TaskRepository } from "@/external/repositories/mod";
+import { TaskRepository } from "@/external/repositories";
 
 const taskRepository = new TaskRepository.Repository();
 

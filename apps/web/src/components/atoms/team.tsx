@@ -1,6 +1,6 @@
 "use client";
 
-import { SessionContext } from "@/external/contexts/mod";
+import { SessionContext } from "@/external/contexts";
 
 export function Team() {
   const { team } = SessionContext.useContext();

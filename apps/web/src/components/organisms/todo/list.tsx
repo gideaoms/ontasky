@@ -1,6 +1,6 @@
 import { Message } from "@/components/atoms/message";
 import { TaskModel } from "@/core/models";
-import { TodoRepository } from "@/core/repositories/mod";
+import { TodoRepository } from "@/core/repositories";
 import { isError } from "@/utils";
 import { Check, ClipboardEdit, X } from "lucide-react";
 import Link from "next/link";

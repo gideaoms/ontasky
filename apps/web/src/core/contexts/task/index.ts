@@ -1,4 +1,4 @@
-import { TaskRepository } from "@/core/repositories/mod";
+import { TaskRepository } from "@/core/repositories";
 
 export type Props = {
   taskRepository: TaskRepository.Repository;

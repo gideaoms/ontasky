@@ -1,6 +1,6 @@
 "use client";
 
-import { SessionContext } from "@/external/contexts/mod";
+import { SessionContext } from "@/external/contexts";
 
 export function Email() {
   const { user } = SessionContext.useContext();

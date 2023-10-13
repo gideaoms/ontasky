@@ -1,6 +1,6 @@
 import { UserModel } from "@/core/models";
 import { UserObject } from "@/core/objects";
-import { SessionRepository } from "@/core/repositories/mod";
+import { SessionRepository } from "@/core/repositories";
 import { api, setToken } from "@/external/libs/api";
 import { isOkStatus } from "@/utils";
 import { z } from "zod";

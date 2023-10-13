@@ -1,7 +1,7 @@
 "use client";
 
 import { Loading } from "@/components/atoms/loading";
-import { SessionContext } from "@/external/contexts/mod";
+import { SessionContext } from "@/external/contexts";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 

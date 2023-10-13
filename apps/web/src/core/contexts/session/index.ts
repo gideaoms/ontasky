@@ -1,5 +1,5 @@
 import { TeamModel, UserModel } from "@/core/models";
-import { SessionRepository } from "@/core/repositories/mod";
+import { SessionRepository } from "@/core/repositories";
 
 export type Props = {
   user: UserModel.Model | null;

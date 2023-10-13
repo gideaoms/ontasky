@@ -3,7 +3,7 @@
 import { Loading } from "@/components/atoms/loading";
 import { Sidebar } from "@/components/molecules/sidebar";
 import { List } from "@/components/organisms/home/list";
-import { SessionContext, TeamContext } from "@/external/contexts/mod";
+import { SessionContext, TeamContext } from "@/external/contexts";
 import { isError } from "@/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
