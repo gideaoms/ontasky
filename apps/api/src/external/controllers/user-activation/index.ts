@@ -1,4 +1,4 @@
-import { Service } from "@/internal/services/user-activation";
+import { Service } from "@/core/services/user-activation";
 import { UserRepository } from "@/external/factories/repositories";
 import { isError } from "@/utils";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";

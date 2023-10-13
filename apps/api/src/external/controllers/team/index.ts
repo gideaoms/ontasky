@@ -1,4 +1,4 @@
-import { Service } from "@/internal/services/team";
+import { Service } from "@/core/services/team";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
 import { FastifyInstance } from "fastify";

@@ -1,11 +1,11 @@
 import { SessionOnTeamProvider } from "@/external/factories/providers";
 import { TaskQuery } from "@/external/factories/queries";
 import {
-  AnswerRepository,
+  TodoRepository,
   TaskRepository,
   UserOnTeamRepository,
 } from "@/external/factories/repositories";
-import { Service } from "@/internal/services/task";
+import { Service } from "@/core/services/task";
 import { isError } from "@/utils";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
@@ -15,7 +15,7 @@ const service = new Service(
   SessionOnTeamProvider.Provider,
   UserOnTeamRepository.Repository,
   TaskRepository.Repository,
-  AnswerRepository.Repository,
+  TodoRepository.Repository,
   TaskQuery.Query
 );
 
@@ -100,13 +100,12 @@ export default async function controller(fastify: FastifyInstance) {
       }),
       querystring: Type.Object({
         team_id: Type.String({ format: "uuid" }),
-        by: Type.Union([Type.Literal("owner"), Type.Literal("approver")]),
       }),
     },
     async handler(request, replay) {
       const { authorization } = request.headers;
-      const { team_id, by } = request.query;
-      const result = await service.index(authorization, team_id, by);
+      const { team_id } = request.query;
+      const result = await service.index(authorization, team_id);
       if (isError(result)) {
         return replay.code(result.status).send({ message: result.message });
       }
@@ -127,14 +126,13 @@ export default async function controller(fastify: FastifyInstance) {
       }),
       querystring: Type.Object({
         team_id: Type.String({ format: "uuid" }),
-        by: Type.Union([Type.Literal("owner"), Type.Literal("approver")]),
       }),
     },
     async handler(request, replay) {
       const { authorization } = request.headers;
       const { task_id } = request.params;
-      const { team_id, by } = request.query;
-      const result = await service.show(authorization, team_id, task_id, by);
+      const { team_id } = request.query;
+      const result = await service.show(authorization, team_id, task_id);
       if (isError(result)) {
         return replay.code(result.status).send({ message: result.message });
       }

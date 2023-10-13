@@ -1,5 +1,5 @@
-import { UserModel, TeamModel, RoleModel } from "@/internal/models";
-import { TeamRepository } from "@/internal/repositories";
+import { UserModel, TeamModel, RoleModel } from "@/core/models";
+import { TeamRepository } from "@/core/repositories";
 import { db } from "@/libs/knex";
 import crypto from "node:crypto";
 

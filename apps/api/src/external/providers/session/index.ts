@@ -1,6 +1,6 @@
-import { UserModel } from "@/internal/models";
-import { SessionProvider, TokenProvider } from "@/internal/providers";
-import { UserRepository } from "@/internal/repositories";
+import { UserModel } from "@/core/models";
+import { SessionProvider, TokenProvider } from "@/core/providers";
+import { UserRepository } from "@/core/repositories";
 
 export class Provider implements SessionProvider.Provider {
   constructor(

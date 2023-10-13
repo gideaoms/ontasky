@@ -1,4 +1,4 @@
-import { TokenProvider } from "@/internal/providers";
+import { TokenProvider } from "@/core/providers";
 import { APP_TOKEN_SECRET } from "@/envs";
 import jsonwebtoken from "jsonwebtoken";
 

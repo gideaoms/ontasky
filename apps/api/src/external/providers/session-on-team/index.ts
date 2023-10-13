@@ -1,5 +1,5 @@
-import { RoleModel, UserModel } from "@/internal/models";
-import { SessionOnTeamProvider, TokenProvider } from "@/internal/providers";
+import { RoleModel, UserModel } from "@/core/models";
+import { SessionOnTeamProvider, TokenProvider } from "@/core/providers";
 import { db } from "@/libs/knex";
 
 export class Provider implements SessionOnTeamProvider.Provider {
