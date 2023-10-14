@@ -1,4 +1,4 @@
-import { TaskModel, UserModel } from "@/core/models";
+import { TaskModel, TodoModel, UserModel } from "@/core/models";
 import { TaskObject, UserObject } from "@/core/objects";
 import { TaskRepository } from "@/core/repositories";
 import { api } from "@/external/libs/api";
@@ -49,15 +49,37 @@ export class Repository implements TaskRepository.Repository {
       .object({
         id: z.string(),
         title: z.string(),
+        description: z.string(),
         approvers: z.array(z.object({ id: z.string() })),
+        answers: z.array(
+          z.object({
+            id: z.string(),
+            description: z.string(),
+            status: z.enum(["awaiting", "approved", "disapproved"]),
+            approver: z.object({
+              email: z.string(),
+            }),
+          })
+        ),
       })
       .parse(result.data);
     return TaskModel.build({
       id: parsed.id,
       title: parsed.title,
+      description: parsed.description,
       approvers: parsed.approvers.map((approver) =>
         UserModel.build({
           id: approver.id,
+        })
+      ),
+      todos: parsed.answers.map((answer) =>
+        TodoModel.build({
+          id: answer.id,
+          description: answer.description,
+          status: answer.status,
+          approver: UserModel.build({
+            email: answer.approver.email,
+          }),
         })
       ),
     });

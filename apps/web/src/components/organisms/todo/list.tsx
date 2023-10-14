@@ -1,5 +1,5 @@
 import { Message } from "@/components/atoms/message";
-import { TaskModel } from "@/core/models";
+import { TaskModel, UserModel } from "@/core/models";
 import { TodoRepository } from "@/core/repositories";
 import { isError } from "@/utils";
 import { Check, ClipboardEdit, X } from "lucide-react";
@@ -25,6 +25,9 @@ export default async function List(props: {
             <th scope="col" className="px-6 py-3">
               Title
             </th>
+            <th scope="col" className="px-6 py-3">
+              Owner
+            </th>
             <th scope="col" className="px-6 py-3 text-center w-6">
               Done
             </th>
@@ -36,6 +39,7 @@ export default async function List(props: {
         <tbody>
           {todos.map((todo) => {
             const task = todo.task ?? TaskModel.empty();
+            const owner = todo.task?.owner ?? UserModel.empty();
             return (
               <tr key={todo.id} className="border-b">
                 <td
@@ -43,6 +47,12 @@ export default async function List(props: {
                   className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap"
                 >
                   {task.title}
+                </td>
+                <td
+                  scope="row"
+                  className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap"
+                >
+                  {owner.email}
                 </td>
                 <td className="px-6 py-4 font-normal text-center">
                   {match(Boolean(todo.answeredAt))

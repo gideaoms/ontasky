@@ -2,7 +2,7 @@
 
 import { Button, button } from "@/components/atoms/button";
 import { Input } from "@/components/atoms";
-import { TaskModel, TodoModel } from "@/core/models";
+import { TaskModel, TodoModel, UserModel } from "@/core/models";
 import { TodoContext } from "@/external/contexts";
 import { isError } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +19,7 @@ const schema = z.object({
 export function Form(props: { todo: TodoModel.Model; currentTeamId: string }) {
   const router = useRouter();
   const task = props.todo.task ?? TaskModel.empty();
+  const owner = props.todo.task?.owner ?? UserModel.empty();
   const { formState, handleSubmit, control } = useForm({
     resolver: zodResolver(schema),
     values: {
@@ -53,6 +54,15 @@ export function Form(props: { todo: TodoModel.Model; currentTeamId: string }) {
     <form>
       <h1 className="text-gray-700 text-lg font-semibold">Task</h1>
       <hr />
+      <Input.Root className="mt-4">
+        <Input.Label htmlFor="owner">Owner</Input.Label>
+        <Input.Control
+          id="owner"
+          placeholder="Owner"
+          disabled
+          value={owner.email}
+        />
+      </Input.Root>
       <Input.Root className="mt-4">
         <Input.Label htmlFor="title">Title</Input.Label>
         <Input.Control

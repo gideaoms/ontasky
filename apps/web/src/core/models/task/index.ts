@@ -1,4 +1,4 @@
-import { UserModel } from "@/core/models";
+import { TodoModel, UserModel } from "@/core/models";
 
 export type Status = "awaiting" | "approved" | "disapproved";
 
@@ -10,7 +10,9 @@ export type Model = Readonly<{
   description: string;
   status: Status;
   answeredAt: string;
+  owner?: UserModel.Model;
   approvers?: UserModel.Model[];
+  todos?: TodoModel.Model[];
 }>;
 
 export function build(task: Partial<Model>) {
@@ -24,7 +26,9 @@ export function build(task: Partial<Model>) {
     description: task.description ?? description,
     status: task.status ?? status,
     answeredAt: task.answeredAt ?? answeredAt,
+    owner: task.owner,
     approvers: task.approvers,
+    todos: task.todos,
   } satisfies Model;
 }
 

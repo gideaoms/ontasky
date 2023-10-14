@@ -1,4 +1,5 @@
 import * as TaskModel from "../task";
+import * as UserModel from "../user";
 
 export type Status = "awaiting" | "approved" | "disapproved";
 
@@ -8,6 +9,7 @@ export type Model = Readonly<{
   status: Status;
   answeredAt: string;
   task?: TaskModel.Model;
+  approver?: UserModel.Model;
 }>;
 
 export function build(todo: Partial<Model>) {
@@ -18,6 +20,7 @@ export function build(todo: Partial<Model>) {
     status: todo.status ?? status,
     answeredAt: todo.answeredAt ?? answeredAt,
     task: todo.task,
+    approver: todo.approver,
   } satisfies Model;
 }
 

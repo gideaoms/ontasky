@@ -1,4 +1,4 @@
-import { TodoModel } from "@/core/models";
+import { AnswerModel } from "@/core/models";
 import { TodoRepository } from "@/core/repositories";
 import { db } from "@/libs/knex";
 
@@ -8,7 +8,7 @@ export class Repository implements TodoRepository.Repository {
     if (!row) {
       return null;
     }
-    return TodoModel.build({
+    return AnswerModel.build({
       id: row.id,
       userId: row.user_id,
       taskId: row.task_id,
@@ -26,7 +26,7 @@ export class Repository implements TodoRepository.Repository {
     if (!row) {
       return null;
     }
-    return TodoModel.build({
+    return AnswerModel.build({
       id: row.id,
       userId: row.user_id,
       taskId: row.task_id,
@@ -45,7 +45,7 @@ export class Repository implements TodoRepository.Repository {
         approvers.map((approver) => approver.id)
       );
     return rows.map((row) =>
-      TodoModel.build({
+      AnswerModel.build({
         id: row.id,
         userId: row.user_id,
         taskId: row.task_id,
@@ -56,7 +56,7 @@ export class Repository implements TodoRepository.Repository {
     );
   }
 
-  async update(todo: TodoModel.Model) {
+  async update(todo: AnswerModel.Model) {
     const [row] = await db
       .table("users_on_tasks")
       .update({
@@ -67,7 +67,7 @@ export class Repository implements TodoRepository.Repository {
       })
       .where("id", todo.id)
       .returning("*");
-    return TodoModel.build({
+    return AnswerModel.build({
       id: row.id,
       userId: row.user_id,
       taskId: row.task_id,

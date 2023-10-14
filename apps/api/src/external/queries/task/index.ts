@@ -1,4 +1,5 @@
-import { TaskObject, UserObject } from "@/core/objects";
+import { AnswerModel, TaskModel, UserModel } from "@/core/models";
+import { TaskObject } from "@/core/objects";
 import { TaskQuery } from "@/core/queries";
 import { db } from "@/libs/knex";
 
@@ -21,7 +22,14 @@ export class Query implements TaskQuery.Query {
 
   async findOne(taskId: string, teamId: string, userId: string) {
     const rows = await db
-      .select("tasks.*", "users.id as approver_id")
+      .select(
+        "tasks.*",
+        "users.id as approver_id",
+        "users.email as approver_email",
+        "users_on_tasks.id as answer_id",
+        "users_on_tasks.description as answer_description",
+        "users_on_tasks.status as answer_status"
+      )
       .from("tasks")
       .where("tasks.id", taskId)
       .andWhere("tasks.owner_id", userId)
@@ -36,16 +44,29 @@ export class Query implements TaskQuery.Query {
       return null;
     }
     const [task] = rows;
-    return TaskObject.build({
+    return TaskModel.toJson({
       id: task.id,
       title: task.title,
+      description: task.description,
       approvers: rows
         .map((row) =>
-          UserObject.build({
+          UserModel.toJson({
             id: row.approver_id,
           })
         )
         .filter((approver) => approver.id),
+      answers: rows
+        .map((row) =>
+          AnswerModel.toJson({
+            id: row.answer_id,
+            description: row.answer_description,
+            status: row.answer_status,
+            approver: UserModel.toJson({
+              email: row.approver_email,
+            }),
+          })
+        )
+        .filter((answer) => answer.id),
     });
   }
 }

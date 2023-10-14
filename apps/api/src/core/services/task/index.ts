@@ -3,7 +3,7 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "@/core/errors";
-import { TodoModel, TaskModel } from "@/core/models";
+import { AnswerModel, TaskModel } from "@/core/models";
 import { SessionOnTeamProvider } from "@/core/providers";
 import { TaskQuery } from "@/core/queries";
 import {
@@ -39,7 +39,7 @@ export class Service {
     if (!user) {
       return new UnauthorizedError.Error();
     }
-    const answers: TodoModel.Model[] = [];
+    const answers: AnswerModel.Model[] = [];
     for (const approver1 of approvers) {
       const approver2 = await this.userOnTeamRepository.findByPk(
         approver1.id,
@@ -48,7 +48,7 @@ export class Service {
       if (!approver2) {
         return new BadRequestError.Error("Approver not found.");
       }
-      const answer = TodoModel.build({
+      const answer = AnswerModel.build({
         userId: approver1.id,
         status: "awaiting",
       });
@@ -88,13 +88,13 @@ export class Service {
       approvers
     );
     for (const removedAnswer of removedAnswers) {
-      if (!TodoModel.isAwaiting(removedAnswer)) {
+      if (!AnswerModel.isAwaiting(removedAnswer)) {
         return new BadRequestError.Error(
           "You can only remove approvers who has not answered yet."
         );
       }
     }
-    const addedAnswers: TodoModel.Model[] = [];
+    const addedAnswers: AnswerModel.Model[] = [];
     for (const approver1 of approvers) {
       const approver2 = await this.userOnTeamRepository.findByPk(
         approver1.id,
@@ -108,7 +108,7 @@ export class Service {
         taskId
       );
       if (!answer1) {
-        const answer2 = TodoModel.build({
+        const answer2 = AnswerModel.build({
           userId: approver1.id,
           status: "awaiting",
         });
@@ -139,6 +139,7 @@ export class Service {
       return new UnauthorizedError.Error();
     }
     const task = await this.taskQuery.findOne(taskId, teamId, user.id);
+    console.log({ task });
     if (!task) {
       return new NotFoundError.Error("Task not found.");
     }

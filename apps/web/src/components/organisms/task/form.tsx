@@ -64,14 +64,12 @@ export function Form(props: {
   });
   const { taskRepository } = TaskContext.useContext();
 
-  console.log(props.task);
-
   async function save(
     title: string,
     description: string,
     approvers: UserModel.Model[]
   ) {
-    const task = TaskModel.build({
+    const task1 = TaskModel.build({
       id: props.task.id,
       teamId: props.currentTeamId,
       title,
@@ -79,9 +77,9 @@ export function Form(props: {
       approvers,
     });
     const save = props.task.id ? taskRepository.update : taskRepository.create;
-    const savedTask = await save(task, approvers);
-    if (isError(savedTask)) {
-      toast.error(savedTask.message);
+    const task2 = await save(task1, approvers);
+    if (isError(task2)) {
+      toast.error(task2.message);
       return;
     }
     router.replace(`/tasks?current_team_id=${props.currentTeamId}`);
@@ -151,6 +149,46 @@ export function Form(props: {
           />
         ))}
       </div>
+      {props.task.todos?.map((todo) => {
+        const approver = todo.approver ?? UserModel.empty();
+        return (
+          <fieldset
+            key={todo.id}
+            className="border p-4 mt-4 rounded-lg border-zinc-300"
+          >
+            <Input.Root>
+              <Input.Label htmlFor="approver">Approver</Input.Label>
+              <Input.Control
+                id="approver"
+                placeholder="Approver"
+                disabled
+                value={approver.email}
+              />
+            </Input.Root>
+            <Input.Root className="mt-4">
+              <Input.Label htmlFor="status">Status</Input.Label>
+              <Input.Control
+                id="status"
+                placeholder="Status"
+                disabled
+                value={todo.status}
+              />
+            </Input.Root>
+            <Input.Root className="mt-4">
+              <Input.Label htmlFor="description">Description</Input.Label>
+              <Input.Control asChild>
+                <textarea
+                  id="description"
+                  placeholder="Description"
+                  rows={6}
+                  disabled
+                  value={todo.description}
+                />
+              </Input.Control>
+            </Input.Root>
+          </fieldset>
+        );
+      })}
       <div className="mt-4 flex flex-row gap-2">
         <Button type="submit" isLoading={formState.isSubmitting}>
           Save

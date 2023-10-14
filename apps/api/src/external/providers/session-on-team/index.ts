@@ -24,7 +24,7 @@ export class Provider implements SessionOnTeamProvider.Provider {
           .on("users_on_teams.user_id", "=", "users.id")
           .andOn("users_on_teams.team_id", "=", db.raw("?", [teamId]));
         if (role && !RoleModel.isCommon(role)) {
-          query.andOn("users_on_teams.role", "=", db.raw("?", [role.name]));
+          query.andOn("users_on_teams.role", "=", db.raw("?", [role]));
         }
       });
     if (!row) {

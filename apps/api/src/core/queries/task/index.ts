@@ -1,10 +1,10 @@
-import { TaskObject } from "@/core/objects";
+import { TaskModel } from "@/core/models";
 
 export type Query = {
-  findMany(teamId: string, userId: string): Promise<TaskObject.Object[]>;
+  findMany(teamId: string, userId: string): Promise<TaskModel.Json[]>;
   findOne(
     taskId: string,
     teamId: string,
     userId: string
-  ): Promise<TaskObject.Object | null>;
+  ): Promise<TaskModel.Json | null>;
 };

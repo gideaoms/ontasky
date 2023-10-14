@@ -1,10 +1,10 @@
-import { TodoModel, TaskModel } from "@/core/models";
+import { AnswerModel, TaskModel } from "@/core/models";
 import { TaskRepository } from "@/core/repositories";
 import { db } from "@/libs/knex";
 import crypto from "node:crypto";
 
 export class Repository implements TaskRepository.Repository {
-  async create(task1: TaskModel.Model, answers1: TodoModel.Model[]) {
+  async create(task1: TaskModel.Model, answers1: AnswerModel.Model[]) {
     return db.transaction(async (trx) => {
       const [task2] = await trx
         .insert({
@@ -64,8 +64,8 @@ export class Repository implements TaskRepository.Repository {
 
   async update(
     task1: TaskModel.Model,
-    addedAnswers: TodoModel.Model[],
-    removedAnswers: TodoModel.Model[]
+    addedAnswers: AnswerModel.Model[],
+    removedAnswers: AnswerModel.Model[]
   ) {
     return db.transaction(async (trx) => {
       const [task2] = await trx

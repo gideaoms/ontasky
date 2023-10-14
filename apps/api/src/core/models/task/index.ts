@@ -1,16 +1,27 @@
+import * as AnswerModel from "../answer";
 import * as UserModel from "../user";
 
 export type Status = "awaiting" | "approved" | "disapproved";
 
-export type Model = Readonly<{
-  id: string;
-  ownerId: string;
-  teamId: string;
-  title: string;
-  description: string;
-  status: Status;
-  approvers?: UserModel.Model;
-}>;
+export type Model = {
+  readonly id: string;
+  readonly ownerId: string;
+  readonly teamId: string;
+  readonly title: string;
+  readonly description: string;
+  readonly status: Status;
+  readonly approvers?: UserModel.Model[];
+  readonly answers?: AnswerModel.Model[];
+};
+
+export type Json = {
+  readonly id?: string;
+  readonly title?: string;
+  readonly description?: string;
+  readonly owner?: UserModel.Json;
+  readonly approvers?: UserModel.Json[];
+  readonly answers?: AnswerModel.Json[];
+};
 
 export function build(task: Partial<Model>) {
   const { id, ownerId, teamId, title, description, status } = empty();
@@ -22,6 +33,7 @@ export function build(task: Partial<Model>) {
     description: task.description ?? description,
     status: task.status ?? status,
     approvers: task.approvers,
+    answers: task.answers,
   } satisfies Model;
 }
 
@@ -34,4 +46,8 @@ export function empty() {
     description: "",
     status: "awaiting",
   } satisfies Model;
+}
+
+export function toJson(task: Json) {
+  return task;
 }

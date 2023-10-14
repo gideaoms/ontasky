@@ -1,13 +1,18 @@
 import { z } from "zod";
 
-export type Model = Readonly<{
-  id: string;
-  email: string;
-  password: string;
-  isEmailActivated: boolean;
-  validationCode: string;
-  token: string;
-}>;
+export type Model = {
+  readonly id: string;
+  readonly email: string;
+  readonly password: string;
+  readonly isEmailActivated: boolean;
+  readonly validationCode: string;
+  readonly token: string;
+};
+
+export type Json = {
+  readonly id?: string;
+  readonly email?: string;
+};
 
 export function build(user: Partial<Model>) {
   const parsed = z
@@ -33,6 +38,10 @@ export function empty() {
     validationCode: "",
     token: "",
   } satisfies Model;
+}
+
+export function toJson(user: Json) {
+  return user;
 }
 
 export function isValidationCodeCorrect(user: Model, validationCode: string) {

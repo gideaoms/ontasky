@@ -1,4 +1,4 @@
-import { TaskModel, TodoModel } from "@/core/models";
+import { TaskModel, TodoModel, UserModel } from "@/core/models";
 import { TaskObject, TodoObject } from "@/core/objects";
 import { TodoRepository } from "@/core/repositories";
 import { api } from "@/external/libs/api";
@@ -23,6 +23,9 @@ export class Repository implements TodoRepository.Repository {
           answered_at: z.string().nullish(),
           task: z.object({
             title: z.string(),
+            owner: z.object({
+              email: z.string(),
+            }),
           }),
         })
       )
@@ -38,6 +41,9 @@ export class Repository implements TodoRepository.Repository {
               todo.task.title.substring(0, 140).concat("...")
             )
             .otherwise(() => todo.task.title),
+          owner: UserModel.build({
+            email: todo.task.owner.email,
+          }),
         }),
       })
     );
@@ -60,6 +66,10 @@ export class Repository implements TodoRepository.Repository {
         task: z.object({
           title: z.string(),
           description: z.string(),
+          owner: z.object({
+            id: z.string(),
+            email: z.string(),
+          }),
         }),
       })
       .parse(result.data);
@@ -71,6 +81,10 @@ export class Repository implements TodoRepository.Repository {
       task: TaskModel.build({
         title: parsed.task.title,
         description: parsed.task.description,
+        owner: UserModel.build({
+          id: parsed.task.owner.id,
+          email: parsed.task.owner.email,
+        }),
       }),
     });
   }

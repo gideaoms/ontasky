@@ -1,10 +1,10 @@
-import { TodoObject } from "@/core/objects";
+import { AnswerModel } from "@/core/models";
 
 export type Query = {
-  findMany(teamId: string, userId: string): Promise<TodoObject.Object[]>;
+  findMany(teamId: string, userId: string): Promise<AnswerModel.Json[]>;
   findOne(by: {
     todoId: string;
     teamId: string;
     userId: string;
-  }): Promise<TodoObject.Object | null>;
+  }): Promise<AnswerModel.Json | null>;
 };

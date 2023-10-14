@@ -19,7 +19,7 @@ export class Repository implements TeamRepository.Repository {
           id: crypto.randomUUID(),
           user_id: user.id,
           team_id: createdTeam.id,
-          role: role.name,
+          role,
           created_at: new Date(),
         })
         .into("users_on_teams");

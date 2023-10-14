@@ -1,5 +1,5 @@
 import { BadRequestError, UnauthorizedError } from "@/core/errors";
-import { TodoModel } from "@/core/models";
+import { AnswerModel } from "@/core/models";
 import { SessionOnTeamProvider } from "@/core/providers";
 import { TodoRepository } from "@/core/repositories";
 
@@ -26,10 +26,10 @@ export class Service {
     if (!todo1 || todo1.userId !== user1.id) {
       return new BadRequestError.Error("Todo not found.");
     }
-    if (!TodoModel.isAwaiting(todo1)) {
+    if (!AnswerModel.isAwaiting(todo1)) {
       return new BadRequestError.Error("You have already answered this todo.");
     }
-    const todo2 = TodoModel.build({
+    const todo2 = AnswerModel.build({
       id: todoId,
       status: "approved",
       description,

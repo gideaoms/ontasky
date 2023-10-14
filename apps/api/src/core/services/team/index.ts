@@ -26,7 +26,7 @@ export class Service {
       return new UnauthorizedError.Error();
     }
     const team1 = TeamModel.build({ name });
-    const role = RoleModel.build({ name: "admin" });
+    const role = RoleModel.build("admin");
     const team2 = await this.teamRepository.create(team1, user, role);
     return TeamModel.toJson({ id: team2.id, name: team2.name });
   }
@@ -47,7 +47,7 @@ export class Service {
   }
 
   async update(authorization: string, teamId: string, name: string) {
-    const role = RoleModel.build({ name: "admin" });
+    const role = RoleModel.build("admin");
     const user = await this.sessionOnTeamProvider.findOne(
       authorization,
       teamId,
