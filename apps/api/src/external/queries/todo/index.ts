@@ -19,7 +19,7 @@ export class Query implements TodoQuery.Query {
           .andOn("tasks.team_id", "=", db.raw("?", [teamId]));
       })
       .innerJoin("users", (query) => {
-        query.on("users.id", "=", "users_on_tasks.user_id");
+        query.on("users.id", "=", "tasks.owner_id");
       });
     return rows.map((row) =>
       AnswerModel.toJson({
@@ -46,6 +46,7 @@ export class Query implements TodoQuery.Query {
         "users.email as owner_email"
       )
       .from("users_on_tasks")
+      .where("users_on_tasks.user_id", by.userId)
       .andWhere("users_on_tasks.id", by.todoId)
       .orderBy("users_on_tasks.created_at", "desc")
       .innerJoin("tasks", (query) => {
@@ -54,9 +55,7 @@ export class Query implements TodoQuery.Query {
           .andOn("tasks.team_id", "=", db.raw("?", [by.teamId]));
       })
       .innerJoin("users", (query) => {
-        query
-          .on("users.id", "=", "users_on_tasks.user_id")
-          .andOn("users.id", "=", db.raw("?", [by.userId]));
+        query.on("users.id", "=", "tasks.owner_id");
       });
     if (!row) {
       return null;
