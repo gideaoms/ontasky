@@ -21,13 +21,10 @@ export function build(team: Partial<Model>) {
   } satisfies Model;
 }
 
-export function empty() {
-  return {
-    id: "",
-    name: "",
-  } satisfies Model;
-}
+export const empty = (): Model => ({
+  id: "",
+  name: "",
+  role: "common",
+});
 
-export function toJson(team: Json) {
-  return team;
-}
+export const toJson = (team: Json) => team;
