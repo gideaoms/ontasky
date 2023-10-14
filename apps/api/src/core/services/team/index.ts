@@ -26,15 +26,10 @@ export class Service {
     if (!user) {
       return new UnauthorizedError.Error();
     }
-    const team = TeamModel.build({
-      name,
-    });
+    const team1 = TeamModel.build({ name });
     const role = RoleModel.build({ name: "admin" });
-    const createdTeam = await this.teamRepository.create(team, user, role);
-    return TeamObject.build({
-      id: createdTeam.id,
-      name: createdTeam.name,
-    });
+    const team2 = await this.teamRepository.create(team1, user, role);
+    return TeamModel.toJson({ id: team2.id, name: team2.name });
   }
 
   async show(authorization: string, teamId: string) {
@@ -49,10 +44,7 @@ export class Service {
     if (!team) {
       return new NotFoundError.Error("Team not found.");
     }
-    return TeamObject.build({
-      id: team.id,
-      name: team.name,
-    });
+    return TeamModel.toJson({ id: team.id, name: team.name });
   }
 
   async update(authorization: string, teamId: string, name: string) {
@@ -65,18 +57,12 @@ export class Service {
     if (!user) {
       return new UnauthorizedError.Error();
     }
-    const team = await this.teamRepository.findById(teamId);
-    if (!team) {
+    const team1 = await this.teamRepository.findById(teamId);
+    if (!team1) {
       return new NotFoundError.Error("Team not found.");
     }
-    const teamToUpdate = TeamModel.build({
-      id: team.id,
-      name,
-    });
-    const updatedTeam = await this.teamRepository.update(teamToUpdate);
-    return TeamObject.build({
-      id: updatedTeam.id,
-      name: updatedTeam.name,
-    });
+    const team2 = TeamModel.build({ id: team1.id, name });
+    const team3 = await this.teamRepository.update(team2);
+    return TeamModel.toJson({ id: team3.id, name: team3.name });
   }
 }

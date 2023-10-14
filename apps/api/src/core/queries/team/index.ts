@@ -1,5 +1,5 @@
-import { TeamObject } from "@/core/objects";
+import { TeamModel } from "@/core/models";
 
 export type Query = {
-  findMany(userId: string): Promise<TeamObject.Object[]>;
+  findMany(userId: string): Promise<TeamModel.Json[]>;
 };

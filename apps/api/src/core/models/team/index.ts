@@ -1,16 +1,35 @@
-import { z } from "zod";
+import * as RoleModel from "../role";
 
-export type Model = Readonly<{
-  id: string;
-  name: string;
-}>;
+export type Model = {
+  readonly id: string;
+  readonly name: string;
+  readonly role?: RoleModel.Model;
+};
+
+export type Json = {
+  readonly id?: string;
+  readonly name?: string;
+};
 
 export function build(team: Partial<Model>) {
-  const parsed = z
-    .object({
-      id: z.string().default(""),
-      name: z.string().default(""),
-    })
-    .parse(team);
-  return parsed satisfies Model;
+  const { id, name } = empty();
+  return {
+    id: team.id ?? id,
+    name: team.name ?? name,
+    role: team.role,
+  } satisfies Model;
+}
+
+export function empty() {
+  return {
+    id: "",
+    name: "",
+  } satisfies Model;
+}
+
+export function toJson(team: Partial<Model>) {
+  return {
+    id: team.id,
+    name: team.name,
+  } satisfies Json;
 }
