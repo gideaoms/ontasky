@@ -54,7 +54,7 @@ export class Repository implements TaskRepository.Repository {
         answers: z.array(
           z.object({
             id: z.string(),
-            description: z.string(),
+            description: z.string().optional(),
             status: z.enum(["awaiting", "approved", "disapproved"]),
             approver: z.object({
               email: z.string(),

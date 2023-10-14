@@ -20,7 +20,7 @@ export class Repository implements TodoRepository.Repository {
         z.object({
           id: z.string(),
           status: z.enum(["awaiting", "approved", "disapproved"]),
-          answered_at: z.string().nullish(),
+          answered_at: z.string().optional(),
           task: z.object({
             title: z.string(),
             owner: z.object({
@@ -34,7 +34,7 @@ export class Repository implements TodoRepository.Repository {
       TodoModel.build({
         id: todo.id,
         status: todo.status,
-        answeredAt: todo.answered_at ?? "",
+        answeredAt: todo.answered_at,
         task: TaskModel.build({
           title: match(todo.task.title.length)
             .with(P.number.gt(140), () =>
@@ -61,8 +61,8 @@ export class Repository implements TodoRepository.Repository {
       .object({
         id: z.string(),
         status: z.enum(["awaiting", "approved", "disapproved"]),
-        description: z.string().nullish(),
-        answered_at: z.string().nullish(),
+        description: z.string().optional(),
+        answered_at: z.string().optional(),
         task: z.object({
           title: z.string(),
           description: z.string(),
@@ -75,9 +75,9 @@ export class Repository implements TodoRepository.Repository {
       .parse(result.data);
     return TodoModel.build({
       id: parsed.id,
-      description: parsed.description ?? "",
+      description: parsed.description,
       status: parsed.status,
-      answeredAt: parsed.answered_at ?? "",
+      answeredAt: parsed.answered_at,
       task: TaskModel.build({
         title: parsed.task.title,
         description: parsed.task.description,

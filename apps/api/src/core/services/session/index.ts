@@ -22,9 +22,7 @@ export class Service {
       return new BadRequestError.Error(errorMessage);
     }
     if (!user.isEmailActivated) {
-      return new BadRequestError.Error(
-        "You have to activate your account before signing in."
-      );
+      return new BadRequestError.Error("You have to activate your account.");
     }
     const isPasswordCorrect = await this.cryptoProvider.compare(
       password,
