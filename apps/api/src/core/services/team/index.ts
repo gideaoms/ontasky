@@ -1,6 +1,5 @@
 import { NotFoundError, UnauthorizedError } from "@/core/errors";
 import { RoleModel, TeamModel } from "@/core/models";
-import { TeamObject } from "@/core/objects";
 import { SessionOnTeamProvider, SessionProvider } from "@/core/providers";
 import { TeamQuery } from "@/core/queries";
 import { TeamRepository } from "@/core/repositories";
