@@ -28,7 +28,7 @@ export class Service {
     const team1 = TeamModel.build({ name });
     const role = RoleModel.build("admin");
     const team2 = await this.teamRepository.create(team1, user, role);
-    return TeamModel.toJson({ id: team2.id, name: team2.name });
+    return TeamModel.json({ id: team2.id, name: team2.name });
   }
 
   async show(authorization: string, teamId: string) {
@@ -43,7 +43,7 @@ export class Service {
     if (!team) {
       return new NotFoundError.Error("Team not found.");
     }
-    return TeamModel.toJson({ id: team.id, name: team.name });
+    return TeamModel.json({ id: team.id, name: team.name });
   }
 
   async update(authorization: string, teamId: string, name: string) {
@@ -62,6 +62,6 @@ export class Service {
     }
     const team2 = TeamModel.build({ id: team1.id, name });
     const team3 = await this.teamRepository.update(team2);
-    return TeamModel.toJson({ id: team3.id, name: team3.name });
+    return TeamModel.json({ id: team3.id, name: team3.name });
   }
 }

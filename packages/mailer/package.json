@@ -1,9 +1,9 @@
 {
-  "name": "@clark/database",
+  "name": "@ontasky/mailer",
   "version": "1.0.0",
   "description": "",
   "main": "dist/app.js",
-  "types": "src/app.d.ts",
+  "types": "dist/app.d.ts",
   "type": "module",
   "scripts": {
     "dev": "tsc --watch",
@@ -12,16 +12,8 @@
   "keywords": [],
   "author": "Gideão",
   "license": "ISC",
-  "dependencies": {
-    "@adonisjs/events": "^7.2.1",
-    "@adonisjs/logger": "^4.1.5",
-    "@adonisjs/lucid": "^18.4.2",
-    "@adonisjs/profiler": "^6.0.9"
-  },
   "devDependencies": {
-    "copyfiles": "^2.4.1",
     "rimraf": "^5.0.5",
-    "tsup": "^7.2.0",
     "typescript": "^5.2.2"
   }
 }

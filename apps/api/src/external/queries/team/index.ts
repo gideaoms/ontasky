@@ -13,7 +13,7 @@ export class Query implements TeamQuery.Query {
           .andOn("users_on_teams.user_id", "=", db.raw("?", [userId]));
       });
     return rows.map((row) =>
-      TeamModel.toJson({
+      TeamModel.json({
         id: row.id,
         name: row.name,
         role: row.role,

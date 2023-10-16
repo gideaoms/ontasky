@@ -59,7 +59,7 @@ export class Query implements TaskQuery.Query {
         .map((row) =>
           AnswerModel.toJson({
             id: row.answer_id,
-            description: row.answer_description || undefined,
+            description: row.answer_description ?? undefined,
             status: row.answer_status,
             approver: UserModel.toJson({
               email: row.approver_email,

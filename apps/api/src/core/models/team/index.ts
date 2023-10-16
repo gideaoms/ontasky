@@ -9,7 +9,7 @@ export type Model = {
 export type Json = {
   readonly id?: string;
   readonly name?: string;
-  readonly role?: RoleModel.Model;
+  readonly role?: RoleModel.Json;
 };
 
 export function build(team: Partial<Model>) {
@@ -21,10 +21,14 @@ export function build(team: Partial<Model>) {
   } satisfies Model;
 }
 
-export const empty = (): Model => ({
-  id: "",
-  name: "",
-  role: "common",
-});
+export function empty() {
+  return {
+    id: "",
+    name: "",
+    role: "common",
+  } satisfies Model;
+}
 
-export const toJson = (team: Json) => team;
+export function json(team: Json) {
+  return team;
+}
