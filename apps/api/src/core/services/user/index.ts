@@ -14,7 +14,7 @@ async function sendEmail(user: UserModel.Model) {
   const html = render(rendered);
   const text = render(rendered, { plainText: true });
   await resend.emails.send({
-    from: "Ontasky <no-replay@emails.ontasky.com>",
+    from: "Ontasky <no-replay@ontasky.com>",
     to: [user.email], // `${name} <${email}>`
     subject: "Activate your account",
     html,
