@@ -57,8 +57,9 @@ export class Repository implements UserRepository.Repository {
       .table("users")
       .update({
         password: user.password,
-        validation_code: user.validationCode || null,
+        validation_code: user.validationCode ?? null,
         updated_at: new Date(),
+        is_email_activated: user.isEmailActivated,
       })
       .where("id", user.id)
       .returning("*");

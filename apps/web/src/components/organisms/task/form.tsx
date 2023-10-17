@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { match } from "ts-pattern";
 
 const schema = z
   .object({
@@ -132,22 +133,30 @@ export function Form(props: {
       />
       <div className="flex flex-col gap-2 mt-4">
         <Input.Label>Approvers</Input.Label>
-        {fields.map((approver, index) => (
-          <Controller
-            key={approver.id}
-            control={control}
-            name={`users.${index}.enabled`}
-            render={({ field }) => (
-              <Checkbox
-                onCheckedChange={function (checked) {
-                  field.onChange(checked === true);
-                }}
-                checked={field.value}
-                label={approver.email}
+        {match(fields.length)
+          .with(0, () => (
+            <span className="text-xs text-gray-600">
+              There is no other member in your team yet.
+            </span>
+          ))
+          .otherwise(() =>
+            fields.map((approver, index) => (
+              <Controller
+                key={approver.id}
+                control={control}
+                name={`users.${index}.enabled`}
+                render={({ field }) => (
+                  <Checkbox
+                    onCheckedChange={function (checked) {
+                      field.onChange(checked === true);
+                    }}
+                    checked={field.value}
+                    label={approver.email}
+                  />
+                )}
               />
-            )}
-          />
-        ))}
+            ))
+          )}
       </div>
       {props.task.todos?.map((todo) => {
         const approver = todo.approver ?? UserModel.empty();
