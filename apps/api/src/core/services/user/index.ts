@@ -4,7 +4,23 @@ import { UserObject } from "@/core/objects";
 import { CryptoProvider, SessionOnTeamProvider } from "@/core/providers";
 import { UserQuery } from "@/core/queries";
 import { UserRepository } from "@/core/repositories";
+import { resend } from "@/libs/resend";
+import { UserCreatedEmail } from "@ontasky/mailer";
 import crypto from "node:crypto";
+import { render } from "@react-email/render";
+
+async function sendEmail(user: UserModel.Model) {
+  const rendered = UserCreatedEmail({ validationCode: user.validationCode });
+  const html = render(rendered);
+  const text = render(rendered, { plainText: true });
+  await resend.emails.send({
+    from: "Ontasky <no-replay@emails.ontasky.com>",
+    to: [user.email], // `${name} <${email}>`
+    subject: "Activate your account",
+    html,
+    text,
+  });
+}
 
 export class Service {
   constructor(
@@ -25,6 +41,7 @@ export class Service {
         validationCode,
       });
       const user3 = await this.userRepository.create(user2);
+      await sendEmail(user3);
       return UserObject.build({
         id: user3.id,
         email: user3.email,
@@ -39,6 +56,7 @@ export class Service {
       validationCode,
     });
     const user3 = await this.userRepository.update(user2);
+    await sendEmail(user3);
     return UserObject.build({
       id: user3.id,
       email: user3.email,

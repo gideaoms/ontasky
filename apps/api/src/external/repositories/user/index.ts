@@ -1,8 +1,6 @@
 import { UserModel } from "@/core/models";
 import { UserRepository } from "@/core/repositories";
 import { db } from "@/libs/knex";
-import { resend } from "@/libs/resend";
-import { UserCreatedEmail } from "@ontasky/mailer";
 import crypto from "node:crypto";
 
 export class Repository implements UserRepository.Repository {
@@ -34,30 +32,23 @@ export class Repository implements UserRepository.Repository {
   }
 
   async create(user: UserModel.Model) {
-    return db.transaction(async (trx) => {
-      const [row] = await trx
-        .insert({
-          id: crypto.randomUUID(),
-          email: user.email,
-          password: user.password,
-          is_email_activated: user.isEmailActivated,
-          validation_code: user.validationCode,
-          created_at: new Date(),
-        })
-        .into("users")
-        .returning("*");
-      await resend.emails.send({
-        from: "Ontasky <no-replay@ontasky.com>",
-        to: [user.email], // `${name} <${email}>`
-        subject: "Activate your account",
-        react: UserCreatedEmail({ validationCode: user.validationCode }),
-      });
-      return UserModel.build({
-        id: row.id,
-        email: row.email,
-        password: row.password,
-        isEmailActivated: row.is_email_activated,
-      });
+    const [row] = await db
+      .insert({
+        id: crypto.randomUUID(),
+        email: user.email,
+        password: user.password,
+        is_email_activated: user.isEmailActivated,
+        validation_code: user.validationCode,
+        created_at: new Date(),
+      })
+      .into("users")
+      .returning("*");
+    return UserModel.build({
+      id: row.id,
+      email: row.email,
+      password: row.password,
+      isEmailActivated: row.is_email_activated,
+      validationCode: row.validation_code,
     });
   }
 
@@ -76,6 +67,7 @@ export class Repository implements UserRepository.Repository {
       email: row.email,
       password: row.password,
       isEmailActivated: row.is_email_activated,
+      validationCode: row.validation_code,
     });
   }
 }

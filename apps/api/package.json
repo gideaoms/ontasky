@@ -17,6 +17,7 @@
     "@fastify/type-provider-typebox": "^3.5.0",
     "@ontasky/mailer": "workspace:*",
     "@ontasky/observer": "workspace:*",
+    "@react-email/render": "^0.0.7",
     "@sinclair/typebox": "^0.31.17",
     "@total-typescript/ts-reset": "^0.5.1",
     "bcryptjs": "^2.4.3",

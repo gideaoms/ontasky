@@ -32,6 +32,9 @@ importers:
       '@ontasky/observer':
         specifier: workspace:*
         version: link:../../packages/observer
+      '@react-email/render':
+        specifier: ^0.0.7
+        version: 0.0.7
       '@sinclair/typebox':
         specifier: ^0.31.17
         version: 0.31.17
