@@ -9,7 +9,7 @@ export type Model = {
   readonly taskId: string;
   readonly description: string;
   readonly status: Status;
-  readonly answeredAt?: string;
+  readonly answeredAt?: string | Date;
 };
 
 export type Json = {

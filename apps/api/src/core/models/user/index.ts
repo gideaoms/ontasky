@@ -1,3 +1,4 @@
+import { Observer } from "@ontasky/observer";
 import { z } from "zod";
 
 export type Model = {
@@ -47,3 +48,7 @@ export function toJson(user: Json) {
 export function isValidationCodeCorrect(user: Model, validationCode: string) {
   return user.validationCode === validationCode;
 }
+
+export const subscribers = {
+  created: new Observer<Model>(),
+};

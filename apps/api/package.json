@@ -15,6 +15,8 @@
     "@fastify/cors": "^8.4.0",
     "@fastify/helmet": "^11.1.1",
     "@fastify/type-provider-typebox": "^3.5.0",
+    "@ontasky/mailer": "workspace:*",
+    "@ontasky/observer": "workspace:*",
     "@sinclair/typebox": "^0.31.17",
     "@total-typescript/ts-reset": "^0.5.1",
     "bcryptjs": "^2.4.3",
@@ -23,6 +25,7 @@
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.0.1",
     "pg": "^8.11.3",
+    "resend": "^1.1.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {

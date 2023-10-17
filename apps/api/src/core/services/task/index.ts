@@ -139,7 +139,6 @@ export class Service {
       return new UnauthorizedError.Error();
     }
     const task = await this.taskQuery.findOne(taskId, teamId, user.id);
-    console.log({ task });
     if (!task) {
       return new NotFoundError.Error("Task not found.");
     }

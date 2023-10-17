@@ -35,6 +35,8 @@ export class Service {
       description,
       answeredAt: new Date(),
     });
-    return this.todoRepository.update(todo2);
+    const todo3 = await this.todoRepository.update(todo2);
+    //
+    return todo3;
   }
 }

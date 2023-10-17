@@ -1,5 +1,7 @@
+import { Observer } from "@ontasky/observer";
 import * as AnswerModel from "../answer";
 import * as UserModel from "../user";
+import * as TeamModel from "../team";
 
 export type Status = "awaiting" | "approved" | "disapproved";
 
@@ -12,6 +14,8 @@ export type Model = {
   readonly status: Status;
   readonly approvers?: UserModel.Model[];
   readonly answers?: AnswerModel.Model[];
+  readonly team?: TeamModel.Model;
+  readonly approver?: UserModel.Model;
 };
 
 export type Json = {
@@ -34,6 +38,8 @@ export function build(task: Partial<Model>) {
     status: task.status ?? status,
     approvers: task.approvers,
     answers: task.answers,
+    team: task.team,
+    approver: task.approver,
   } satisfies Model;
 }
 
@@ -51,3 +57,7 @@ export function empty() {
 export function toJson(task: Json) {
   return task;
 }
+
+export const subscribers = {
+  approved: new Observer<Model>(),
+};
