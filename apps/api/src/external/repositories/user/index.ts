@@ -1,6 +1,6 @@
-import { UserModel } from "@/core/models";
-import { UserRepository } from "@/core/repositories";
-import { db } from "@/libs/knex";
+import { UserModel } from "@/core/models/index.js";
+import { UserRepository } from "@/core/repositories/index.js";
+import { db } from "@/libs/knex.js";
 import crypto from "node:crypto";
 
 export class Repository implements UserRepository.Repository {

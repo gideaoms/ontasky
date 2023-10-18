@@ -1,4 +1,4 @@
-import { RoleModel, UserModel } from "@/core/models";
+import { RoleModel, UserModel } from "@/core/models/index.js";
 
 export type Provider = {
   findOne(

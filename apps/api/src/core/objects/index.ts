@@ -1,4 +1,4 @@
-export * as TeamObject from "./team";
-export * as UserObject from "./user";
-export * as TaskObject from "./task";
-export * as TodoObject from "./todo";
+export * as TeamObject from "./team/index.js";
+export * as UserObject from "./user/index.js";
+export * as TaskObject from "./task/index.js";
+export * as TodoObject from "./todo/index.js";

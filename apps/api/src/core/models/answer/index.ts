@@ -1,5 +1,5 @@
-import * as UserModel from "../user";
-import * as TaskModel from "../task";
+import * as UserModel from "../user/index.js";
+import * as TaskModel from "../task/index.js";
 
 export type Status = "awaiting" | "approved" | "disapproved";
 

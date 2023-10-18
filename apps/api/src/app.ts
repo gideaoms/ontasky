@@ -1,6 +1,6 @@
 import "@total-typescript/ts-reset";
-import { APP_NODE_ENV } from "@/envs";
-import { db } from "@/libs/knex";
+import { APP_NODE_ENV } from "@/envs.js";
+import { db } from "@/libs/knex.js";
 import autoload from "@fastify/autoload";
 import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";

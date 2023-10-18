@@ -1,14 +1,14 @@
-import { Service } from "@/core/services/user";
-import { isError } from "@/utils";
+import { Service } from "@/core/services/user/index.js";
+import { isError } from "@/utils.js";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
 import { FastifyInstance } from "fastify";
-import { UserRepository } from "@/external/factories/repositories";
+import { UserRepository } from "@/external/factories/repositories/index.js";
 import {
   CryptoProvider,
   SessionOnTeamProvider,
-} from "@/external/factories/providers";
-import { UserQuery } from "@/external/factories/queries";
+} from "@/external/factories/providers/index.js";
+import { UserQuery } from "@/external/factories/queries/index.js";
 
 const service = new Service(
   CryptoProvider.Provider,

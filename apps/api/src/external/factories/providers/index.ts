@@ -1,4 +1,4 @@
-export * as CryptoProvider from "./crypto";
-export * as SessionProvider from "./session";
-export * as TokenProvider from "./token";
-export * as SessionOnTeamProvider from "./session-on-team";
+export * as CryptoProvider from "./crypto/index.js";
+export * as SessionProvider from "./session/index.js";
+export * as TokenProvider from "./token/index.js";
+export * as SessionOnTeamProvider from "./session-on-team/index.js";

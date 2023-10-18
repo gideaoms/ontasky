@@ -1,10 +1,13 @@
-import { BadRequestError, UnauthorizedError } from "@/core/errors";
-import { UserModel } from "@/core/models";
-import { UserObject } from "@/core/objects";
-import { CryptoProvider, SessionOnTeamProvider } from "@/core/providers";
-import { UserQuery } from "@/core/queries";
-import { UserRepository } from "@/core/repositories";
-import { resend } from "@/libs/resend";
+import { BadRequestError, UnauthorizedError } from "@/core/errors/index.js";
+import { UserModel } from "@/core/models/index.js";
+import { UserObject } from "@/core/objects/index.js";
+import {
+  CryptoProvider,
+  SessionOnTeamProvider,
+} from "@/core/providers/index.js";
+import { UserQuery } from "@/core/queries/index.js";
+import { UserRepository } from "@/core/repositories/index.js";
+import { resend } from "@/libs/resend.js";
 import { UserCreatedEmail } from "@ontasky/mailer";
 import crypto from "node:crypto";
 import { render } from "@react-email/render";

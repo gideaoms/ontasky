@@ -1,11 +1,11 @@
-import { UserRepository } from "@/core/repositories";
+import { UserRepository } from "@/core/repositories/index.js";
 import {
   CryptoProvider,
   TokenProvider,
   SessionProvider,
-} from "@/core/providers";
-import { BadRequestError, UnauthorizedError } from "@/core/errors";
-import { UserObject } from "@/core/objects";
+} from "@/core/providers/index.js";
+import { BadRequestError, UnauthorizedError } from "@/core/errors/index.js";
+import { UserObject } from "@/core/objects/index.js";
 
 export class Service {
   constructor(

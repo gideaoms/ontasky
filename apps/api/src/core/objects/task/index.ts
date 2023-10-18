@@ -1,4 +1,4 @@
-import * as UserObject from "../user";
+import * as UserObject from "../user/index.js";
 
 export type Object = Partial<{
   id: string;

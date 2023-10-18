@@ -1,6 +1,6 @@
-import { AnswerModel } from "@/core/models";
-import { TodoRepository } from "@/core/repositories";
-import { db } from "@/libs/knex";
+import { AnswerModel } from "@/core/models/index.js";
+import { TodoRepository } from "@/core/repositories/index.js";
+import { db } from "@/libs/knex.js";
 
 export class Repository implements TodoRepository.Repository {
   async findById(todoId: string) {

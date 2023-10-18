@@ -1,6 +1,6 @@
-import { AnswerModel, TaskModel } from "@/core/models";
-import { TaskRepository } from "@/core/repositories";
-import { db } from "@/libs/knex";
+import { AnswerModel, TaskModel } from "@/core/models/index.js";
+import { TaskRepository } from "@/core/repositories/index.js";
+import { db } from "@/libs/knex.js";
 import crypto from "node:crypto";
 
 export class Repository implements TaskRepository.Repository {

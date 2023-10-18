@@ -1,7 +1,7 @@
-import { BadRequestError, UnauthorizedError } from "@/core/errors";
-import { AnswerModel } from "@/core/models";
-import { SessionOnTeamProvider } from "@/core/providers";
-import { TodoRepository } from "@/core/repositories";
+import { BadRequestError, UnauthorizedError } from "@/core/errors/index.js";
+import { AnswerModel } from "@/core/models/index.js";
+import { SessionOnTeamProvider } from "@/core/providers/index.js";
+import { TodoRepository } from "@/core/repositories/index.js";
 
 export class Service {
   constructor(

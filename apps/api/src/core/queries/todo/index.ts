@@ -1,4 +1,4 @@
-import { AnswerModel } from "@/core/models";
+import { AnswerModel } from "@/core/models/index.js";
 
 export type Query = {
   findMany(teamId: string, userId: string): Promise<AnswerModel.Json[]>;

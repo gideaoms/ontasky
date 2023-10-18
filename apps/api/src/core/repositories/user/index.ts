@@ -1,4 +1,4 @@
-import { UserModel } from "@/core/models";
+import { UserModel } from "@/core/models/index.js";
 
 export type Repository = {
   findById(userId: string): Promise<UserModel.Model | null>;

@@ -1,6 +1,6 @@
-import { NotFoundError, UnauthorizedError } from "@/core/errors";
-import { SessionOnTeamProvider } from "@/core/providers";
-import { TodoQuery } from "@/core/queries";
+import { NotFoundError, UnauthorizedError } from "@/core/errors/index.js";
+import { SessionOnTeamProvider } from "@/core/providers/index.js";
+import { TodoQuery } from "@/core/queries/index.js";
 
 export class Service {
   constructor(

@@ -1,7 +1,7 @@
-import { SessionOnTeamProvider } from "@/external/factories/providers";
-import { TodoQuery } from "@/external/factories/queries";
-import { Service } from "@/core/services/todo/find-one";
-import { isError } from "@/utils";
+import { SessionOnTeamProvider } from "@/external/factories/providers/index.js";
+import { TodoQuery } from "@/external/factories/queries/index.js";
+import { Service } from "@/core/services/todo/find-one/index.js";
+import { isError } from "@/utils.js";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
 import { FastifyInstance } from "fastify";

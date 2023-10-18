@@ -1,14 +1,14 @@
-import { Service } from "@/core/services/team";
+import { Service } from "@/core/services/team/index.js";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
 import { FastifyInstance } from "fastify";
-import { isError } from "@/utils";
+import { isError } from "@/utils.js";
 import {
   SessionOnTeamProvider,
   SessionProvider,
-} from "@/external/factories/providers";
-import { TeamRepository } from "@/external/factories/repositories";
-import { TeamQuery } from "@/external/factories/queries";
+} from "@/external/factories/providers/index.js";
+import { TeamRepository } from "@/external/factories/repositories/index.js";
+import { TeamQuery } from "@/external/factories/queries/index.js";
 
 const service = new Service(
   SessionProvider.Provider,

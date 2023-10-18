@@ -1,7 +1,7 @@
 import { Observer } from "@ontasky/observer";
-import * as AnswerModel from "../answer";
-import * as UserModel from "../user";
-import * as TeamModel from "../team";
+import * as AnswerModel from "../answer/index.js";
+import * as UserModel from "../user/index.js";
+import * as TeamModel from "../team/index.js";
 
 export type Status = "awaiting" | "approved" | "disapproved";
 

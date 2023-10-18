@@ -1,8 +1,11 @@
-import { NotFoundError, UnauthorizedError } from "@/core/errors";
-import { RoleModel, TeamModel } from "@/core/models";
-import { SessionOnTeamProvider, SessionProvider } from "@/core/providers";
-import { TeamQuery } from "@/core/queries";
-import { TeamRepository } from "@/core/repositories";
+import { NotFoundError, UnauthorizedError } from "@/core/errors/index.js";
+import { RoleModel, TeamModel } from "@/core/models/index.js";
+import {
+  SessionOnTeamProvider,
+  SessionProvider,
+} from "@/core/providers/index.js";
+import { TeamQuery } from "@/core/queries/index.js";
+import { TeamRepository } from "@/core/repositories/index.js";
 
 export class Service {
   constructor(

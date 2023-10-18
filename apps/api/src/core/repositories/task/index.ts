@@ -1,4 +1,4 @@
-import { AnswerModel, TaskModel } from "@/core/models";
+import { AnswerModel, TaskModel } from "@/core/models/index.js";
 
 export type Repository = {
   create(

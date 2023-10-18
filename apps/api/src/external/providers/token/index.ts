@@ -1,5 +1,5 @@
-import { TokenProvider } from "@/core/providers";
-import { APP_TOKEN_SECRET } from "@/envs";
+import { TokenProvider } from "@/core/providers/index.js";
+import { APP_TOKEN_SECRET } from "@/envs.js";
 import jsonwebtoken from "jsonwebtoken";
 
 export class Provider implements TokenProvider.Provider {

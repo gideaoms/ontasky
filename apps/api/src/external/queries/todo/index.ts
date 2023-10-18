@@ -1,6 +1,6 @@
-import { AnswerModel, TaskModel, UserModel } from "@/core/models";
-import { TodoQuery } from "@/core/queries";
-import { db } from "@/libs/knex";
+import { AnswerModel, TaskModel, UserModel } from "@/core/models/index.js";
+import { TodoQuery } from "@/core/queries/index.js";
+import { db } from "@/libs/knex.js";
 
 export class Query implements TodoQuery.Query {
   async findMany(teamId: string, userId: string) {

@@ -1,12 +1,12 @@
-import { SessionOnTeamProvider } from "@/external/factories/providers";
-import { TaskQuery } from "@/external/factories/queries";
+import { SessionOnTeamProvider } from "@/external/factories/providers/index.js";
+import { TaskQuery } from "@/external/factories/queries/index.js";
 import {
   TodoRepository,
   TaskRepository,
   UserOnTeamRepository,
-} from "@/external/factories/repositories";
-import { Service } from "@/core/services/task";
-import { isError } from "@/utils";
+} from "@/external/factories/repositories/index.js";
+import { Service } from "@/core/services/task/index.js";
+import { isError } from "@/utils.js";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
 import { FastifyInstance } from "fastify";

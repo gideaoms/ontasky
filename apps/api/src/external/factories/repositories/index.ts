@@ -1,5 +1,5 @@
-export * as UserRepository from "./user";
-export * as TeamRepository from "./team";
-export * as UserOnTeamRepository from "./user-on-team";
-export * as TaskRepository from "./task";
-export * as TodoRepository from "./todo";
+export * as UserRepository from "./user/index.js";
+export * as TeamRepository from "./team/index.js";
+export * as UserOnTeamRepository from "./user-on-team/index.js";
+export * as TaskRepository from "./task/index.js";
+export * as TodoRepository from "./todo/index.js";

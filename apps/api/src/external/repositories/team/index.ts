@@ -1,6 +1,6 @@
-import { UserModel, TeamModel, RoleModel } from "@/core/models";
-import { TeamRepository } from "@/core/repositories";
-import { db } from "@/libs/knex";
+import { UserModel, TeamModel, RoleModel } from "@/core/models/index.js";
+import { TeamRepository } from "@/core/repositories/index.js";
+import { db } from "@/libs/knex.js";
 import crypto from "node:crypto";
 
 export class Repository implements TeamRepository.Repository {

@@ -1,4 +1,4 @@
-import { DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER } from "@/envs";
+import { DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER } from "@/envs.js";
 import type { Knex } from "knex";
 
 export default {

@@ -1,7 +1,7 @@
-import { AnswerModel, TaskModel, UserModel } from "@/core/models";
-import { TaskObject } from "@/core/objects";
-import { TaskQuery } from "@/core/queries";
-import { db } from "@/libs/knex";
+import { AnswerModel, TaskModel, UserModel } from "@/core/models/index.js";
+import { TaskObject } from "@/core/objects/index.js";
+import { TaskQuery } from "@/core/queries/index.js";
+import { db } from "@/libs/knex.js";
 
 export class Query implements TaskQuery.Query {
   async findMany(teamId: string, userId: string) {

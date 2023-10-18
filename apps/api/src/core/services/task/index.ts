@@ -2,15 +2,15 @@ import {
   BadRequestError,
   NotFoundError,
   UnauthorizedError,
-} from "@/core/errors";
-import { AnswerModel, TaskModel } from "@/core/models";
-import { SessionOnTeamProvider } from "@/core/providers";
-import { TaskQuery } from "@/core/queries";
+} from "@/core/errors/index.js";
+import { AnswerModel, TaskModel } from "@/core/models/index.js";
+import { SessionOnTeamProvider } from "@/core/providers/index.js";
+import { TaskQuery } from "@/core/queries/index.js";
 import {
   TodoRepository,
   TaskRepository,
   UserOnTeamRepository,
-} from "@/core/repositories";
+} from "@/core/repositories/index.js";
 
 type Approver = {
   id: string;

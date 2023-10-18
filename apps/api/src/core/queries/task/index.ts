@@ -1,4 +1,4 @@
-import { TaskModel } from "@/core/models";
+import { TaskModel } from "@/core/models/index.js";
 
 export type Query = {
   findMany(teamId: string, userId: string): Promise<TaskModel.Json[]>;

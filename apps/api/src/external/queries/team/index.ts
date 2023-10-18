@@ -1,6 +1,6 @@
-import { TeamModel } from "@/core/models";
-import { TeamQuery } from "@/core/queries";
-import { db } from "@/libs/knex";
+import { TeamModel } from "@/core/models/index.js";
+import { TeamQuery } from "@/core/queries/index.js";
+import { db } from "@/libs/knex.js";
 
 export class Query implements TeamQuery.Query {
   async findMany(userId: string) {

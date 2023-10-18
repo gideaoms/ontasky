@@ -1,6 +1,6 @@
-import { UserModel } from "@/core/models";
-import { SessionProvider, TokenProvider } from "@/core/providers";
-import { UserRepository } from "@/core/repositories";
+import { UserModel } from "@/core/models/index.js";
+import { SessionProvider, TokenProvider } from "@/core/providers/index.js";
+import { UserRepository } from "@/core/repositories/index.js";
 
 export class Provider implements SessionProvider.Provider {
   constructor(

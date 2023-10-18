@@ -1,6 +1,6 @@
-import { UserModel } from "@/core/models";
-import { UserOnTeamRepository } from "@/core/repositories";
-import { db } from "@/libs/knex";
+import { UserModel } from "@/core/models/index.js";
+import { UserOnTeamRepository } from "@/core/repositories/index.js";
+import { db } from "@/libs/knex.js";
 
 export class Repository implements UserOnTeamRepository.Repository {
   async findByPk(userId: string, teamId: string) {

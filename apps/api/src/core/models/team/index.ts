@@ -1,4 +1,4 @@
-import * as RoleModel from "../role";
+import * as RoleModel from "../role/index.js";
 
 export type Model = {
   readonly id: string;

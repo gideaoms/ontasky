@@ -1,3 +1,3 @@
-import { TaskQuery } from "@/external/queries";
+import { TaskQuery } from "@/external/queries/index.js";
 
 export const Query = new TaskQuery.Query();

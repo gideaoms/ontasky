@@ -1,4 +1,4 @@
-import * as TaskObject from "../task";
+import * as TaskObject from "../task/index.js";
 
 export type Object = Partial<{
   id: string;

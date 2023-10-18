@@ -1,6 +1,6 @@
-import { Service } from "@/core/services/user-activation";
-import { UserRepository } from "@/external/factories/repositories";
-import { isError } from "@/utils";
+import { Service } from "@/core/services/user-activation/index.js";
+import { UserRepository } from "@/external/factories/repositories/index.js";
+import { isError } from "@/utils.js";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
 import { FastifyInstance } from "fastify";

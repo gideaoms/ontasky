@@ -1,6 +1,6 @@
-import { UserObject } from "@/core/objects";
-import { UserQuery } from "@/core/queries";
-import { db } from "@/libs/knex";
+import { UserObject } from "@/core/objects/index.js";
+import { UserQuery } from "@/core/queries/index.js";
+import { db } from "@/libs/knex.js";
 
 export class Query implements UserQuery.Query {
   async findMany(teamId: string, userId: string) {

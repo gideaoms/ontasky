@@ -1,4 +1,4 @@
-import { RoleModel, TeamModel, UserModel } from "@/core/models";
+import { RoleModel, TeamModel, UserModel } from "@/core/models/index.js";
 
 export type Repository = {
   create(

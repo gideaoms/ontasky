@@ -1,7 +1,7 @@
-import { UserModel } from "@/core/models";
+import { UserModel } from "@/core/models/index.js";
 import { UserCreatedEmail } from "@ontasky/mailer";
 import { Resend } from "resend";
-import { MAIL_KEY } from "@/envs";
+import { MAIL_KEY } from "@/envs.js";
 
 const resend = new Resend(MAIL_KEY);
 

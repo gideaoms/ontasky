@@ -1,7 +1,7 @@
-import { BadRequestError } from "@/core/errors";
-import { UserModel } from "@/core/models";
-import { UserObject } from "@/core/objects";
-import { UserRepository } from "@/core/repositories";
+import { BadRequestError } from "@/core/errors/index.js";
+import { UserModel } from "@/core/models/index.js";
+import { UserObject } from "@/core/objects/index.js";
+import { UserRepository } from "@/core/repositories/index.js";
 
 export class Service {
   constructor(private readonly userRepository: UserRepository.Repository) {}

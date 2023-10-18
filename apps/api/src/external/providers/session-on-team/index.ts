@@ -1,6 +1,9 @@
-import { RoleModel, UserModel } from "@/core/models";
-import { SessionOnTeamProvider, TokenProvider } from "@/core/providers";
-import { db } from "@/libs/knex";
+import { RoleModel, UserModel } from "@/core/models/index.js";
+import {
+  SessionOnTeamProvider,
+  TokenProvider,
+} from "@/core/providers/index.js";
+import { db } from "@/libs/knex.js";
 
 export class Provider implements SessionOnTeamProvider.Provider {
   constructor(private readonly tokenProvider: TokenProvider.Provider) {}
