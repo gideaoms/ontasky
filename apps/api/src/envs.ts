@@ -3,6 +3,8 @@ import { z } from "zod";
 
 export const APP_NODE_ENV = z
   .enum(["development", "test", "production"])
+  .optional()
+  .default("development")
   .parse(process.env.NODE_ENV);
 export const APP_PORT = z.coerce
   .number()
