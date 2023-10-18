@@ -3,9 +3,13 @@ import { z } from "zod";
 
 export const APP_NODE_ENV = z
   .enum(["development", "test", "production"])
-  .parse(process.env.APP_NODE_ENV);
-export const APP_PORT = z.coerce.number().parse(process.env.APP_PORT);
-export const APP_HOST = z.string().optional().parse(process.env.APP_HOST);
+  .parse(process.env.NODE_ENV);
+export const APP_PORT = z.coerce
+  .number()
+  .optional()
+  .default(3333)
+  .parse(process.env.PORT);
+export const APP_HOST = z.string().optional().parse(process.env.HOST);
 export const APP_TOKEN_SECRET = z.string().parse(process.env.APP_TOKEN_SECRET);
 export const MAIL_KEY = z.string().parse(process.env.MAIL_KEY);
 export const WEB_URL = z.string().parse(process.env.WEB_URL);
