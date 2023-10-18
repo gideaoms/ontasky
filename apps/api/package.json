@@ -5,7 +5,9 @@
   "main": "dist/server.js",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch --clear-screen=false src/server.ts"
+    "dev": "tsx watch --clear-screen=false src/server.ts",
+    "build": "rimraf dist && tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "Gideão",
@@ -33,6 +35,8 @@
     "@types/bcryptjs": "^2.4.4",
     "@types/jsonwebtoken": "^9.0.3",
     "@types/node": "^20.8.2",
+    "rimraf": "^5.0.5",
+    "tsc-alias": "^1.8.8",
     "tsx": "^3.13.0",
     "typescript": "^5.2.2"
   }
