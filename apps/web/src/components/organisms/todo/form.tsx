@@ -146,12 +146,6 @@ export function Form(props: { todo: TodoModel.Model; currentTeamId: string }) {
         >
           Disapprove
         </Button>
-        <Link
-          href={`/todos?current_team_id=${props.currentTeamId}`}
-          className={button({ variant: "error", className: "ml-auto" })}
-        >
-          Cancel
-        </Link>
       </div>
     </form>
   );

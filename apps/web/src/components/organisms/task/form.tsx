@@ -202,12 +202,6 @@ export function Form(props: {
         <Button type="submit" isLoading={formState.isSubmitting}>
           Save
         </Button>
-        <Link
-          href={`/tasks?current_team_id=${props.currentTeamId}`}
-          className={button({ variant: "error" })}
-        >
-          Cancel
-        </Link>
       </div>
     </form>
   );
