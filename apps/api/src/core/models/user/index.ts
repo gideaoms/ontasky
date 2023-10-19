@@ -1,5 +1,5 @@
 import { Observer } from "@ontasky/observer";
-import { z } from "zod";
+import * as TeamModel from "../team/index.js";
 
 export type Model = {
   readonly id: string;
@@ -8,6 +8,7 @@ export type Model = {
   readonly isEmailActivated: boolean;
   readonly validationCode: string;
   readonly token: string;
+  readonly team?: TeamModel.Model;
 };
 
 export type Json = {
@@ -16,18 +17,17 @@ export type Json = {
 };
 
 export function build(user: Partial<Model>) {
-  const parsed = z
-    .object({
-      id: z.string().default(""),
-      email: z.string().default(""),
-      password: z.string().default(""),
-      isEmailActivated: z.boolean().default(false),
-      validationCode: z.coerce.string().default(""),
-      token: z.string().default(""),
-      role: z.enum(["common", "admin"]).default("common"),
-    })
-    .parse(user);
-  return parsed satisfies Model;
+  const { id, email, password, isEmailActivated, token, validationCode } =
+    empty();
+  return {
+    id: user.id ?? id,
+    email: user.email ?? email,
+    password: user.password ?? password,
+    isEmailActivated: user.isEmailActivated ?? isEmailActivated,
+    validationCode: user.validationCode ?? validationCode,
+    token: user.token ?? token,
+    team: user.team,
+  } satisfies Model;
 }
 
 export function empty() {
@@ -41,7 +41,7 @@ export function empty() {
   } satisfies Model;
 }
 
-export function toJson(user: Json) {
+export function json(user: Json) {
   return user;
 }
 

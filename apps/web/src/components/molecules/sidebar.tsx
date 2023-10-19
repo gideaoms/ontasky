@@ -2,7 +2,7 @@ import { Email } from "@/components/atoms/email";
 import { NavItem } from "@/components/atoms/nav-item";
 import { SignOut } from "@/components/atoms/sign-out";
 import { Team } from "@/components/atoms/team";
-import { Building, CalendarCheck, Users } from "lucide-react";
+import { Building, CalendarCheck, ListTodo, Users } from "lucide-react";
 import Link from "next/link";
 
 export function Sidebar(props: { currentTeamId: string }) {
@@ -27,13 +27,11 @@ export function Sidebar(props: { currentTeamId: string }) {
           href={`/tasks?current_team_id=${props.currentTeamId}`}
           icon={CalendarCheck}
           title="Tasks"
-          subTitle="(as owner)"
         />
         <NavItem
           href={`/todos?current_team_id=${props.currentTeamId}`}
-          icon={CalendarCheck}
-          title="Tasks"
-          subTitle="(as approver)"
+          icon={ListTodo}
+          title="Answers"
         />
       </nav>
       <div className="mt-auto flex flex-col items-center gap-2">

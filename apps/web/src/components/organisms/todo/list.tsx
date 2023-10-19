@@ -17,7 +17,7 @@ export default async function List(props: {
   return (
     <div className="flex flex-col">
       <div className="flex flex-row items-center justify-between">
-        <h1 className="text-gray-700 text-lg font-semibold">Tasks</h1>
+        <h1 className="text-gray-700 text-lg font-semibold">Answers</h1>
       </div>
       <table className="w-full text-sm text-left border-t mt-2">
         <thead className="text-xs text-gray-700 bg-gray-50 uppercase">
