@@ -1,4 +1,4 @@
-import { UseCase } from "@/core/services/user-on-team/join/index.js";
+import { UseCase } from "@/core/services/user/join-team/index.js";
 import { SessionProvider } from "@/external/factories/providers/index.js";
 import {
   UserOnTeamRepository,

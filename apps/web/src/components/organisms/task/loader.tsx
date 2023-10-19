@@ -16,9 +16,8 @@ export async function Loader(props: {
       return props.taskRepository.findById(taskId, props.currentTeamId);
     })
     .otherwise(function () {
-      return Object.assign(TaskModel.empty(), {
-        users: [],
-        approverIds: [],
+      return TaskModel.build({
+        approvers: [],
       });
     });
   if (isError(task)) {

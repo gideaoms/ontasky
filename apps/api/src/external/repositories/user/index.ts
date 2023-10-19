@@ -1,4 +1,4 @@
-import { UserModel } from "@/core/models/index.js";
+import { TeamModel, UserModel } from "@/core/models/index.js";
 import { UserRepository } from "@/core/repositories/index.js";
 import { db } from "@/libs/knex.js";
 import crypto from "node:crypto";
@@ -69,6 +69,24 @@ export class Repository implements UserRepository.Repository {
       password: row.password,
       isEmailActivated: row.is_email_activated,
       validationCode: row.validation_code,
+    });
+  }
+
+  async joinTeam(user: UserModel.Model) {
+    const team = user.team ?? TeamModel.empty();
+    await db
+      .insert({
+        id: crypto.randomUUID(),
+        user_id: user.id,
+        team_id: team.id,
+        role: "common",
+        created_at: new Date(),
+      })
+      .into("users_on_teams");
+    const [row] = await db.from("users").where("id", user.id);
+    return UserModel.build({
+      id: row.id,
+      email: row.email,
     });
   }
 }

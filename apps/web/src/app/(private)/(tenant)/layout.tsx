@@ -3,7 +3,8 @@
 import { Loading } from "@/components/atoms/loading";
 import { Sidebar } from "@/components/molecules/sidebar";
 import { List } from "@/components/organisms/home/list";
-import { SessionContext, TeamContext } from "@/external/contexts";
+import { TeamModel, UserModel } from "@/core/models";
+import { SessionContext, TeamContext, UserContext } from "@/external/contexts";
 import { isError } from "@/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
@@ -11,21 +12,26 @@ import { ReactNode, useEffect, useState } from "react";
 export default function Layout(props: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const { teamRepository } = TeamContext.useContext();
-  const { setTeam } = SessionContext.useContext();
+  const { userRepository } = UserContext.useContext();
+  const { setTeam, user } = SessionContext.useContext();
   const router = useRouter();
   const params = useSearchParams();
   const currentTeamId = params.get("current_team_id");
 
   async function onInit(currentTeamId: string) {
     setIsLoading(true);
-    const result = await teamRepository.findById(currentTeamId);
-    if (isError(result)) {
+    const currentUser = UserModel.build({
+      id: user?.id,
+      team: TeamModel.build({
+        id: currentTeamId,
+      }),
+    });
+    const team = await userRepository.findTeam(currentUser);
+    if (isError(team)) {
       router.push("/");
       return;
     }
-    // const { user_on_team, ...team } = result;
-    setTeam(result);
-    // setUserOnTeam(user_on_team);
+    setTeam(team);
     setIsLoading(false);
   }
 

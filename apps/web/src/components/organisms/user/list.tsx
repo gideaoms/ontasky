@@ -12,6 +12,12 @@ export default async function List(props: {
     <div className="flex flex-col">
       <div className="flex flex-row items-center justify-between">
         <h1 className="text-gray-700 text-lg font-semibold">Users</h1>
+        <Link
+          href={`/users/new?current_team_id=${props.currentTeamId}`}
+          className={button()}
+        >
+          <Plus className="h-4 w-4" />
+        </Link>
       </div>
       <table className="w-full text-sm text-left border-t mt-2">
         <thead className="text-xs text-gray-700 bg-gray-50 uppercase">

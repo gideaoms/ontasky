@@ -32,10 +32,14 @@ export class UseCase {
       );
     }
     const team = currentUser.team ?? TeamModel.empty();
-    const user3 = await this.userOnTeamRepository.create(user1, team);
+    const user3 = UserModel.build({
+      id: user1.id,
+      team,
+    });
+    const user4 = await this.userRepository.joinTeam(user3);
     return UserModel.json({
-      id: user3.id,
-      email: user3.email,
+      id: user4.id,
+      email: user4.email,
     });
   }
 }

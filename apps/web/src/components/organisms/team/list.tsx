@@ -1,7 +1,7 @@
 import { button } from "@/components/atoms/button";
-import { EditLink } from "@/components/organisms/team/components/edit-link";
+import { Can } from "@/components/atoms/can";
 import { TeamRepository } from "@/core/repositories";
-import { Plus } from "lucide-react";
+import { ClipboardEdit, Plus } from "lucide-react";
 import Link from "next/link";
 
 export default async function List(props: {
@@ -29,9 +29,11 @@ export default async function List(props: {
             <th scope="col" className="px-6 py-3">
               Role
             </th>
-            <th scope="col" className="px-6 py-3 text-center w-6">
-              Action
-            </th>
+            <Can role="admin">
+              <th scope="col" className="px-6 py-3 text-center w-6">
+                Action
+              </th>
+            </Can>
           </tr>
         </thead>
         <tbody>
@@ -44,9 +46,16 @@ export default async function List(props: {
                 {team.name}
               </td>
               <td>{team.role}</td>
-              <td className="px-6 py-4 font-normal text-violet-600 text-center">
-                <EditLink team={team} currentTeamId={props.currentTeamId} />
-              </td>
+              <Can role="admin">
+                <td className="px-6 py-4 font-normal text-violet-600 text-center">
+                  <Link
+                    href={`teams/${team.id}?current_team_id=${props.currentTeamId}`}
+                    className="inline-block"
+                  >
+                    <ClipboardEdit className="h-5 w-5" />
+                  </Link>
+                </td>
+              </Can>
             </tr>
           ))}
         </tbody>

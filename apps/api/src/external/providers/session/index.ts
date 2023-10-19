@@ -20,7 +20,7 @@ export class Provider implements SessionProvider.Provider {
     }
     if (teamId) {
       const [row] = await db
-        .select("users.*", "users_on_teams.role")
+        .select("users.*", "users_on_teams.role", "teams.name as team_name")
         .from("users")
         .where("users.id", userId)
         .limit(1)
@@ -28,12 +28,17 @@ export class Provider implements SessionProvider.Provider {
           query
             .on("users_on_teams.user_id", "=", "users.id")
             .andOn("users_on_teams.team_id", "=", db.raw("?", [teamId]));
+        })
+        .innerJoin("teams", (query) => {
+          query.on("teams.id", "=", "users_on_teams.team_id");
         });
       if (!row) {
         return null;
       }
       const team = TeamModel.build({
         id: teamId,
+        name: row.team_name,
+        role: row.role,
       });
       return UserModel.build({
         id: row.id,

@@ -28,7 +28,7 @@ export class Query implements TodoQuery.Query {
         answered_at: row.answered_at ?? undefined,
         task: TaskModel.toJson({
           title: row.task_title,
-          owner: UserModel.toJson({
+          owner: UserModel.json({
             email: row.owner_email,
           }),
         }),
@@ -68,7 +68,7 @@ export class Query implements TodoQuery.Query {
       task: TaskModel.toJson({
         title: row.task_title,
         description: row.task_description,
-        owner: UserModel.toJson({
+        owner: UserModel.json({
           id: row.owner_id,
           email: row.owner_email,
         }),

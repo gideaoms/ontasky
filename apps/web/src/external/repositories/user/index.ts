@@ -1,4 +1,4 @@
-import { UserModel } from "@/core/models";
+import { RoleModel, TeamModel, UserModel } from "@/core/models";
 import { UserObject } from "@/core/objects";
 import { UserRepository } from "@/core/repositories";
 import { api } from "@/external/libs/api";
@@ -72,5 +72,50 @@ export class Repository implements UserRepository.Repository {
         email: user.email,
       })
     );
+  }
+
+  async joinTeam(user: UserModel.Model) {
+    const team = user.team ?? TeamModel.empty();
+    const result = await api.post(
+      `teams/${team.id}/users`,
+      UserObject.build({
+        email: user.email,
+      })
+    );
+    if (!isOkStatus(result.status)) {
+      const parsed = z.object({ message: z.string() }).parse(result.data);
+      return new Error(parsed.message);
+    }
+    const parsed = z
+      .object({
+        id: z.string(),
+        email: z.string(),
+      })
+      .parse(result.data);
+    return UserModel.build({
+      id: parsed.id,
+      email: parsed.email,
+    });
+  }
+
+  async findTeam(user: UserModel.Model) {
+    const team = user.team ?? TeamModel.empty();
+    const result = await api.get(`users/${user.id}/teams/${team.id}`);
+    if (!isOkStatus(result.status)) {
+      const parsed = z.object({ message: z.string() }).parse(result.data);
+      return new Error(parsed.message);
+    }
+    const parsed = z
+      .object({
+        id: z.string(),
+        name: z.string(),
+        role: z.enum(["common", "admin"]),
+      })
+      .parse(result.data);
+    return TeamModel.build({
+      id: parsed.id,
+      name: parsed.name,
+      role: RoleModel.build(parsed.role),
+    });
   }
 }

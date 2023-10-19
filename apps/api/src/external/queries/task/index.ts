@@ -50,7 +50,7 @@ export class Query implements TaskQuery.Query {
       description: task.description,
       approvers: rows
         .map((row) =>
-          UserModel.toJson({
+          UserModel.json({
             id: row.approver_id,
           })
         )
@@ -61,7 +61,7 @@ export class Query implements TaskQuery.Query {
             id: row.answer_id,
             description: row.answer_description ?? undefined,
             status: row.answer_status,
-            approver: UserModel.toJson({
+            approver: UserModel.json({
               email: row.approver_email,
             }),
           })
