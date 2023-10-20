@@ -6,7 +6,11 @@ import { Text } from "@react-email/text";
 import React from "react";
 import { h1, link, text } from "../style.js";
 
-export function Email(props: { taskUrl: string; approverEmail: string }) {
+export function Email(props: {
+  password: string;
+  teamName: string;
+  webUrl: string;
+}) {
   return (
     <Html lang="en">
       <Body
@@ -14,16 +18,19 @@ export function Email(props: { taskUrl: string; approverEmail: string }) {
           backgroundColor: "#ffffff",
         }}
       >
-        <Heading style={h1}>Task approved</Heading>
+        <Heading style={h1}>Welcome to {props.teamName}</Heading>
         <Text style={text}>
-          <strong>{props.approverEmail}</strong> has approved your task.
+          You have been invited to join the <strong>{props.teamName}</strong>{" "}
+          team on our platform.
         </Text>
-
         <Text style={text}>
-          <Link style={link} href={props.taskUrl} target="_blank">
+          <Link style={link} href={props.webUrl} target="_blank">
             Click here
           </Link>{" "}
-          to access the task.
+          to access the Ontasky platform.
+        </Text>
+        <Text style={text}>
+          Your password is <strong>{props.password}</strong>
         </Text>
       </Body>
     </Html>

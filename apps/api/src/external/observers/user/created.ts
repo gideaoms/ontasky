@@ -1,5 +1,5 @@
 import { UserModel } from "@/core/models/index.js";
-import { UserCreatedEmail } from "@ontasky/mailer";
+import { CreatedUserEmail } from "@ontasky/mailer";
 import { Resend } from "resend";
 import { MAIL_KEY } from "@/envs.js";
 
@@ -10,6 +10,6 @@ UserModel.subscribers.created.subscribe((user) =>
     from: "Ontasky <no-replay@ontasky.com>",
     to: [user.email], // `${name} <${email}>`
     subject: "Activate your account",
-    react: UserCreatedEmail({ validationCode: user.validationCode }),
+    react: CreatedUserEmail({ validationCode: user.validationCode }),
   })
 );

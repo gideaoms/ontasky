@@ -1,3 +1,3 @@
-export { Email as TaskApprovedEmail } from "./task/approved.js";
-export { Email as UserCreatedEmail } from "./user/created.js";
+export { Email as CreatedUserEmail } from "./user/created.js";
+export { Email as JoinedOnTeamEmail } from "./user/joined.js";
 //# sourceMappingURL=app.d.ts.map

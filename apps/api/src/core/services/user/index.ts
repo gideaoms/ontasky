@@ -7,13 +7,13 @@ import {
 import { UserQuery } from "@/core/queries/index.js";
 import { UserRepository } from "@/core/repositories/index.js";
 import { resend } from "@/libs/resend.js";
-import { UserCreatedEmail } from "@ontasky/mailer";
+import { CreatedUserEmail } from "@ontasky/mailer";
 import crypto from "node:crypto";
 import { render } from "@react-email/render";
 import { APP_NODE_ENV } from "@/envs.js";
 
 async function sendEmail(user: UserModel.Model) {
-  const rendered = UserCreatedEmail({ validationCode: user.validationCode });
+  const rendered = CreatedUserEmail({ validationCode: user.validationCode });
   const html = render(rendered);
   const text = render(rendered, { plainText: true });
   if (APP_NODE_ENV === "development") {

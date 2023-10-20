@@ -1,9 +1,9 @@
 import { UseCase } from "@/core/services/user/join-team/index.js";
-import { SessionProvider } from "@/external/factories/providers/index.js";
 import {
-  UserOnTeamRepository,
-  UserRepository,
-} from "@/external/factories/repositories/index.js";
+  CryptoProvider,
+  SessionProvider,
+} from "@/external/factories/providers/index.js";
+import { UserRepository } from "@/external/factories/repositories/index.js";
 import { isError } from "@/utils.js";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
@@ -12,7 +12,7 @@ import { FastifyInstance } from "fastify";
 const userCase = new UseCase(
   SessionProvider.Provider,
   UserRepository.Repository,
-  UserOnTeamRepository.Repository
+  CryptoProvider.Provider
 );
 
 export default async function controller(fastify: FastifyInstance) {

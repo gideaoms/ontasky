@@ -45,7 +45,12 @@ export default async function List(props: {
               >
                 {team.name}
               </td>
-              <td>{team.role}</td>
+              <td
+                scope="row"
+                className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap"
+              >
+                {team.role}
+              </td>
               <Can role="admin">
                 <td className="px-6 py-4 font-normal text-violet-600 text-center">
                   <Link
