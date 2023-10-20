@@ -77,7 +77,7 @@ export class Repository implements AnswerRepository.Repository {
           status: userOnTask.status,
         })
       );
-      const status = TaskModel.getStatusByAnswers(answers);
+      const status = TaskModel.statusByAnswers(answers);
       await trx
         .table("tasks")
         .update({

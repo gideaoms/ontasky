@@ -62,7 +62,7 @@ export const subscribers = {
   approved: new Observer<Model>(),
 };
 
-export function getStatusByAnswers(answers: AnswerModel.Model[]) {
+export function statusByAnswers(answers: AnswerModel.Model[]) {
   if (answers.every((answer) => answer.status === "approved")) {
     return "approved";
   }
