@@ -1,16 +1,16 @@
 import { SessionOnTeamProvider } from "@/external/factories/providers/index.js";
-import { TodoQuery } from "@/external/factories/queries/index.js";
-import { Service } from "@/core/services/todo/find-many/index.js";
+import { AnswerQuery } from "@/external/factories/queries/index.js";
+import { Service } from "@/core/services/answer/find-many/index.js";
 import { isError } from "@/utils.js";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
 import { FastifyInstance } from "fastify";
 
-const service = new Service(SessionOnTeamProvider.Provider, TodoQuery.Query);
+const service = new Service(SessionOnTeamProvider.Provider, AnswerQuery.Query);
 
 export default async function controller(fastify: FastifyInstance) {
   fastify.withTypeProvider<TypeBoxTypeProvider>().route({
-    url: "/todos",
+    url: "/answers",
     method: "GET",
     schema: {
       headers: Type.Object({

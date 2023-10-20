@@ -1,7 +1,6 @@
 import { RoleModel, TeamModel } from "@/core/models";
 import { TeamRepository } from "@/core/repositories";
 import { api } from "@/external/libs/api";
-import { TeamObject } from "@/core/objects";
 import { isOkStatus } from "@/utils";
 import { z } from "zod";
 
@@ -47,7 +46,7 @@ export class Repository implements TeamRepository.Repository {
   async update(team: TeamModel.Model) {
     const result = await api.put(
       `teams/${team.id}`,
-      TeamObject.build({
+      TeamModel.json({
         id: team.id,
         name: team.name,
       })
@@ -71,7 +70,7 @@ export class Repository implements TeamRepository.Repository {
   async create(team: TeamModel.Model) {
     const result = await api.post(
       "teams",
-      TeamObject.build({
+      TeamModel.json({
         id: team.id,
         name: team.name,
       })

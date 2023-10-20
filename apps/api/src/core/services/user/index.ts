@@ -1,6 +1,5 @@
 import { BadRequestError, UnauthorizedError } from "@/core/errors/index.js";
 import { UserModel } from "@/core/models/index.js";
-import { UserObject } from "@/core/objects/index.js";
 import {
   CryptoProvider,
   SessionOnTeamProvider,
@@ -50,7 +49,7 @@ export class Service {
       });
       const user3 = await this.userRepository.create(user2);
       await sendEmail(user3);
-      return UserObject.build({
+      return UserModel.json({
         id: user3.id,
         email: user3.email,
       });
@@ -65,7 +64,7 @@ export class Service {
     });
     const user3 = await this.userRepository.update(user2);
     await sendEmail(user3);
-    return UserObject.build({
+    return UserModel.json({
       id: user3.id,
       email: user3.email,
     });

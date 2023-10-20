@@ -7,7 +7,7 @@ import { AnswerModel, TaskModel } from "@/core/models/index.js";
 import { SessionOnTeamProvider } from "@/core/providers/index.js";
 import { TaskQuery } from "@/core/queries/index.js";
 import {
-  TodoRepository,
+  AnswerRepository,
   TaskRepository,
   UserOnTeamRepository,
 } from "@/core/repositories/index.js";
@@ -21,7 +21,7 @@ export class Service {
     private readonly sessionOnTeamProvider: SessionOnTeamProvider.Provider,
     private readonly userOnTeamRepository: UserOnTeamRepository.Repository,
     private readonly taskRepository: TaskRepository.Repository,
-    private readonly answerRepository: TodoRepository.Repository,
+    private readonly answerRepository: AnswerRepository.Repository,
     private readonly taskQuery: TaskQuery.Query
   ) {}
 
@@ -54,14 +54,17 @@ export class Service {
       });
       answers.push(answer);
     }
-    const task = TaskModel.build({
+    const task1 = TaskModel.build({
       ownerId: user.id,
       teamId,
       title,
       description,
-      status: "awaiting",
     });
-    return this.taskRepository.create(task, answers);
+    const task2 = await this.taskRepository.create(task1, answers);
+    return TaskModel.json({
+      id: task2.id,
+      title: task2.title,
+    });
   }
 
   async update(
@@ -116,7 +119,15 @@ export class Service {
       }
     }
     const task2 = TaskModel.build({ id: taskId, title, description });
-    return this.taskRepository.update(task2, addedAnswers, removedAnswers);
+    const task3 = await this.taskRepository.update(
+      task2,
+      addedAnswers,
+      removedAnswers
+    );
+    return TaskModel.json({
+      id: task3.id,
+      title: task3.title,
+    });
   }
 
   async index(authorization: string, teamId: string) {

@@ -14,6 +14,7 @@ export type Model = {
 export type Json = {
   readonly id?: string;
   readonly email?: string;
+  readonly token?: string;
 };
 
 export function build(user: Partial<Model>) {

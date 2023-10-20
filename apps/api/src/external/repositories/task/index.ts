@@ -13,7 +13,6 @@ export class Repository implements TaskRepository.Repository {
           team_id: task1.teamId,
           title: task1.title,
           description: task1.description,
-          status: task1.status,
           created_at: new Date(),
         })
         .into("tasks")
@@ -42,7 +41,6 @@ export class Repository implements TaskRepository.Repository {
         teamId: task2.team_id,
         title: task2.title,
         description: task2.description,
-        status: task2.status,
       });
     });
   }
@@ -58,7 +56,6 @@ export class Repository implements TaskRepository.Repository {
       teamId: task.team_id,
       title: task.title,
       description: task.description,
-      status: task.status,
     });
   }
 
@@ -74,6 +71,7 @@ export class Repository implements TaskRepository.Repository {
           title: task1.title,
           description: task1.description,
           updated_at: new Date(),
+          status: addedAnswers.length > 0 ? "awaiting" : undefined,
         })
         .where("id", task1.id)
         .returning("*");
@@ -105,13 +103,25 @@ export class Repository implements TaskRepository.Repository {
       if (rejected2) {
         throw new Error(rejected2.reason);
       }
+      if (answers2.length > 0) {
+        const usersOnTasks = await trx
+          .select("status")
+          .from("users_on_tasks")
+          .where("task_id", task1.id);
+        const answers = usersOnTasks.map((userOnTask) =>
+          AnswerModel.build({
+            status: userOnTask.status,
+          })
+        );
+        const status = TaskModel.getStatusByAnswers(answers);
+        await trx.table("tasks").update({ status }).where("id", task1.id);
+      }
       return TaskModel.build({
         id: task2.id,
         ownerId: task2.owner_id,
         teamId: task2.team_id,
         title: task2.title,
         description: task2.description,
-        status: task2.status,
       });
     });
   }

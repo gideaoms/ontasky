@@ -1,5 +1,4 @@
 import { AnswerModel, TaskModel, UserModel } from "@/core/models/index.js";
-import { TaskObject } from "@/core/objects/index.js";
 import { TaskQuery } from "@/core/queries/index.js";
 import { db } from "@/libs/knex.js";
 
@@ -12,7 +11,7 @@ export class Query implements TaskQuery.Query {
       .andWhere("owner_id", userId)
       .orderBy("created_at", "desc");
     return rows.map((row) =>
-      TaskObject.build({
+      TaskModel.build({
         id: row.id,
         title: row.title,
         status: row.status,
@@ -44,7 +43,7 @@ export class Query implements TaskQuery.Query {
       return null;
     }
     const [task] = rows;
-    return TaskModel.toJson({
+    return TaskModel.json({
       id: task.id,
       title: task.title,
       description: task.description,
@@ -57,7 +56,7 @@ export class Query implements TaskQuery.Query {
         .filter((approver) => approver.id),
       answers: rows
         .map((row) =>
-          AnswerModel.toJson({
+          AnswerModel.json({
             id: row.answer_id,
             description: row.answer_description ?? undefined,
             status: row.answer_status,

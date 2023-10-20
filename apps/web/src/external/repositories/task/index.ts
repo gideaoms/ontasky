@@ -1,5 +1,4 @@
-import { TaskModel, TodoModel, UserModel } from "@/core/models";
-import { TaskObject, UserObject } from "@/core/objects";
+import { TaskModel, AnswerModel, UserModel } from "@/core/models";
 import { TaskRepository } from "@/core/repositories";
 import { api } from "@/external/libs/api";
 import { isOkStatus } from "@/utils";
@@ -9,7 +8,7 @@ import { z } from "zod";
 export class Repository implements TaskRepository.Repository {
   async findMany(teamId: string) {
     const result = await api.get("tasks", {
-      params: TaskObject.build({ team_id: teamId }),
+      params: TaskModel.json({ team_id: teamId }),
     });
     if (!isOkStatus(result.status)) {
       const parsed = z.object({ message: z.string() }).parse(result.data);
@@ -39,7 +38,7 @@ export class Repository implements TaskRepository.Repository {
 
   async findById(taskId: string, teamId: string) {
     const result = await api.get(`tasks/${taskId}`, {
-      params: TaskObject.build({ team_id: teamId }),
+      params: TaskModel.json({ team_id: teamId }),
     });
     if (!isOkStatus(result.status)) {
       const parsed = z.object({ message: z.string() }).parse(result.data);
@@ -72,8 +71,8 @@ export class Repository implements TaskRepository.Repository {
           id: approver.id,
         })
       ),
-      todos: parsed.answers.map((answer) =>
-        TodoModel.build({
+      answers: parsed.answers.map((answer) =>
+        AnswerModel.build({
           id: answer.id,
           description: answer.description,
           status: answer.status,
@@ -88,12 +87,12 @@ export class Repository implements TaskRepository.Repository {
   async create(task: TaskModel.Model, approvers: UserModel.Model[]) {
     const result = await api.post(
       "tasks",
-      TaskObject.build({
+      TaskModel.json({
         team_id: task.teamId,
         title: task.title,
         description: task.description,
         approvers: approvers.map((approver) =>
-          UserObject.build({
+          UserModel.json({
             id: approver.id,
           })
         ),
@@ -118,12 +117,12 @@ export class Repository implements TaskRepository.Repository {
   async update(task: TaskModel.Model, approvers: UserModel.Model[]) {
     const result = await api.put(
       `tasks/${task.id}`,
-      TaskObject.build({
+      TaskModel.json({
         team_id: task.teamId,
         title: task.title,
         description: task.description,
         approvers: approvers.map((approver) =>
-          UserObject.build({
+          UserModel.json({
             id: approver.id,
           })
         ),

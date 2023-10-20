@@ -1,5 +1,4 @@
 import { RoleModel, TeamModel, UserModel } from "@/core/models";
-import { UserObject } from "@/core/objects";
 import { UserRepository } from "@/core/repositories";
 import { api } from "@/external/libs/api";
 import { isOkStatus } from "@/utils";
@@ -9,7 +8,7 @@ export class Repository implements UserRepository.Repository {
   async create(email: string, password: string) {
     const result = await api.post(
       "users",
-      UserObject.build({
+      UserModel.json({
         email,
         password,
       })
@@ -33,7 +32,7 @@ export class Repository implements UserRepository.Repository {
   async activate(email: string, validationCode: string) {
     const result = await api.put(
       "users/activate",
-      UserObject.build({
+      UserModel.json({
         email,
         validation_code: validationCode,
       })
@@ -56,7 +55,7 @@ export class Repository implements UserRepository.Repository {
 
   async findMany(teamId: string) {
     const result = await api.get("users", {
-      params: UserObject.build({ team_id: teamId }),
+      params: UserModel.json({ team_id: teamId }),
     });
     const parsed = z
       .array(
@@ -78,7 +77,7 @@ export class Repository implements UserRepository.Repository {
     const team = user.team ?? TeamModel.empty();
     const result = await api.post(
       `teams/${team.id}/users`,
-      UserObject.build({
+      UserModel.json({
         email: user.email,
       })
     );

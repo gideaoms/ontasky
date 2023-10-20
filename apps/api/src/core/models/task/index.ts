@@ -54,10 +54,20 @@ export function empty() {
   } satisfies Model;
 }
 
-export function toJson(task: Json) {
+export function json(task: Json) {
   return task;
 }
 
 export const subscribers = {
   approved: new Observer<Model>(),
 };
+
+export function getStatusByAnswers(answers: AnswerModel.Model[]) {
+  if (answers.every((answer) => answer.status === "approved")) {
+    return "approved";
+  }
+  if (answers.every((answer) => answer.status === "disapproved")) {
+    return "disapproved";
+  }
+  return "awaiting";
+}

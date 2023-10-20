@@ -29,7 +29,7 @@ export function Sidebar(props: { currentTeamId: string }) {
           title="Tasks"
         />
         <NavItem
-          href={`/todos?current_team_id=${props.currentTeamId}`}
+          href={`/answers?current_team_id=${props.currentTeamId}`}
           icon={ListTodo}
           title="Answers"
         />

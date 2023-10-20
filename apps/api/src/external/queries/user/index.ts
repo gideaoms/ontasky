@@ -1,4 +1,4 @@
-import { UserObject } from "@/core/objects/index.js";
+import { UserModel } from "@/core/models/index.js";
 import { UserQuery } from "@/core/queries/index.js";
 import { db } from "@/libs/knex.js";
 
@@ -14,7 +14,7 @@ export class Query implements UserQuery.Query {
       })
       .where("users.id", "<>", userId);
     return result.map((row) =>
-      UserObject.build({ id: row.id, email: row.email })
+      UserModel.json({ id: row.id, email: row.email })
     );
   }
 }

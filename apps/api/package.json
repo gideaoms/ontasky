@@ -36,7 +36,6 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@flydotio/dockerfile": "^0.4.10",
     "@types/bcryptjs": "^2.4.4",
     "@types/jsonwebtoken": "^9.0.3",
     "@types/node": "^20.8.2",

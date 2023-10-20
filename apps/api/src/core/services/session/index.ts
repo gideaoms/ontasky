@@ -5,7 +5,7 @@ import {
   SessionProvider,
 } from "@/core/providers/index.js";
 import { BadRequestError, UnauthorizedError } from "@/core/errors/index.js";
-import { UserObject } from "@/core/objects/index.js";
+import { UserModel } from "@/core/models/index.js";
 
 export class Service {
   constructor(
@@ -32,7 +32,7 @@ export class Service {
       return new BadRequestError.Error(errorMessage);
     }
     const token = this.tokenProvider.generate(user.id);
-    return UserObject.build({
+    return UserModel.json({
       id: user.id,
       email: user.email,
       token,
@@ -44,7 +44,7 @@ export class Service {
     if (!user) {
       return new UnauthorizedError.Error();
     }
-    return UserObject.build({
+    return UserModel.json({
       id: user.id,
       email: user.email,
       token: user.token,

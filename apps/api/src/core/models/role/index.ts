@@ -10,7 +10,7 @@ export function empty() {
   return "common" as const satisfies Model;
 }
 
-export function toJson(role: Json) {
+export function json(role: Json) {
   return role;
 }
 

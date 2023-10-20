@@ -1,5 +1,4 @@
 import { UserModel } from "@/core/models";
-import { UserObject } from "@/core/objects";
 import { SessionRepository } from "@/core/repositories";
 import { api, setToken } from "@/external/libs/api";
 import { isOkStatus } from "@/utils";
@@ -13,7 +12,7 @@ export class Repository implements SessionRepository.Repository {
   async create(email: string, password: string) {
     const result = await api.post(
       "sessions",
-      UserObject.build({
+      UserModel.json({
         email,
         password,
       })

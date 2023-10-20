@@ -1,7 +1,7 @@
 import { SessionOnTeamProvider } from "@/external/factories/providers/index.js";
 import { TaskQuery } from "@/external/factories/queries/index.js";
 import {
-  TodoRepository,
+  AnswerRepository,
   TaskRepository,
   UserOnTeamRepository,
 } from "@/external/factories/repositories/index.js";
@@ -15,7 +15,7 @@ const service = new Service(
   SessionOnTeamProvider.Provider,
   UserOnTeamRepository.Repository,
   TaskRepository.Repository,
-  TodoRepository.Repository,
+  AnswerRepository.Repository,
   TaskQuery.Query
 );
 

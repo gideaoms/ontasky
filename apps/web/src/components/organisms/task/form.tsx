@@ -3,7 +3,7 @@
 import { Button, button } from "@/components/atoms/button";
 import { Checkbox } from "@/components/atoms/checkbox";
 import { Input } from "@/components/atoms";
-import { TaskModel, UserModel } from "@/core/models";
+import { AnswerModel, TaskModel, UserModel } from "@/core/models";
 import { TaskContext } from "@/external/contexts";
 import { isError } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +13,7 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { match } from "ts-pattern";
+import clsx from "clsx";
 
 const schema = z
   .object({
@@ -158,43 +159,54 @@ export function Form(props: {
             ))
           )}
       </div>
-      {props.task.todos?.map((todo) => {
-        const approver = todo.approver ?? UserModel.empty();
+      {props.task.answers?.map((answer) => {
+        const approver = answer.approver ?? UserModel.empty();
+        if (AnswerModel.isAwaiting(answer)) {
+          return null;
+        }
         return (
           <fieldset
-            key={todo.id}
-            className="border p-4 mt-4 rounded-lg border-zinc-300"
+            key={answer.id}
+            className="border mt-4 rounded-lg border-zinc-300 overflow-hidden"
           >
-            <Input.Root>
-              <Input.Label htmlFor="approver">Approver</Input.Label>
-              <Input.Control
-                id="approver"
-                placeholder="Approver"
-                disabled
-                value={approver.email}
-              />
-            </Input.Root>
-            <Input.Root className="mt-4">
-              <Input.Label htmlFor="status">Status</Input.Label>
-              <Input.Control
-                id="status"
-                placeholder="Status"
-                disabled
-                value={todo.status}
-              />
-            </Input.Root>
-            <Input.Root className="mt-4">
-              <Input.Label htmlFor="description">Description</Input.Label>
-              <Input.Control asChild>
-                <textarea
-                  id="description"
-                  placeholder="Description"
-                  rows={6}
+            <div
+              className={clsx({
+                "h-[6px] bg-orange-400": AnswerModel.isDisapproved(answer),
+                "h-[6px] bg-green-600": AnswerModel.isApproved(answer),
+              })}
+            />
+            <div className="p-4">
+              <Input.Root>
+                <Input.Label htmlFor="approver">Approver</Input.Label>
+                <Input.Control
+                  id="approver"
+                  placeholder="Approver"
                   disabled
-                  value={todo.description}
+                  value={approver.email}
                 />
-              </Input.Control>
-            </Input.Root>
+              </Input.Root>
+              <Input.Root className="mt-4">
+                <Input.Label htmlFor="status">Status</Input.Label>
+                <Input.Control
+                  id="status"
+                  placeholder="Status"
+                  disabled
+                  value={answer.status}
+                />
+              </Input.Root>
+              <Input.Root className="mt-4">
+                <Input.Label htmlFor="description">Description</Input.Label>
+                <Input.Control asChild>
+                  <textarea
+                    id="description"
+                    placeholder="Description"
+                    rows={6}
+                    disabled
+                    value={answer.description}
+                  />
+                </Input.Control>
+              </Input.Root>
+            </div>
           </fieldset>
         );
       })}

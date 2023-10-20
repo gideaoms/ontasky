@@ -1,7 +1,7 @@
 import * as UserModel from "../user/index.js";
 import * as TaskModel from "../task/index.js";
 
-export type Status = "awaiting" | "approved" | "disapproved";
+export type Status = "awaiting" | "approved" | "disapproved" | (string & {});
 
 export type Model = {
   readonly id: string;
@@ -10,6 +10,7 @@ export type Model = {
   readonly description: string;
   readonly status: Status;
   readonly answeredAt?: string | Date;
+  readonly task?: TaskModel.Model;
 };
 
 export type Json = {
@@ -30,6 +31,7 @@ export function build(answer: Partial<Model>) {
     description: answer.description ?? description,
     status: answer.status ?? status,
     answeredAt: answer.answeredAt ?? answeredAt,
+    task: answer.task,
   } satisfies Model;
 }
 
@@ -39,12 +41,12 @@ export function empty() {
     userId: "",
     taskId: "",
     description: "",
-    status: "awaiting",
+    status: "",
     answeredAt: "",
   } satisfies Model;
 }
 
-export function toJson(answer: Json) {
+export function json(answer: Json) {
   return answer;
 }
 
