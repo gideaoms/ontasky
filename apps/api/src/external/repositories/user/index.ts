@@ -128,7 +128,7 @@ export class Repository implements UserRepository.Repository {
       const [user2] = await db
         .select("users.*")
         .from("users")
-        .where({ id: user1.id })
+        .where({ "users.id": user1.id })
         .innerJoin("users_on_teams", function (query) {
           query
             .on("users_on_teams.user_id", "=", "users.id")
