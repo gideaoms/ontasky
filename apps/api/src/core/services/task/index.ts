@@ -59,6 +59,7 @@ export class Service {
       teamId,
       title,
       description,
+      status: "awaiting",
     });
     const task2 = await this.taskRepository.create(task1, answers);
     return TaskModel.json({

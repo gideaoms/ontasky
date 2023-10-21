@@ -13,6 +13,7 @@ export class Repository implements TaskRepository.Repository {
           team_id: task1.teamId,
           title: task1.title,
           description: task1.description,
+          status: task1.status,
           created_at: new Date(),
         })
         .into("tasks")
