@@ -1,7 +1,7 @@
-import * as UserModel from "../user/index.js";
-import * as TaskModel from "../task/index.js";
+import * as TaskModel from '../task/index.js';
+import * as UserModel from '../user/index.js';
 
-export type Status = "awaiting" | "approved" | "disapproved" | (string & {});
+export type Status = 'awaiting' | 'approved' | 'disapproved' | (string & {});
 
 export type Model = {
   readonly id: string;
@@ -37,12 +37,12 @@ export function build(answer: Partial<Model>) {
 
 export function empty() {
   return {
-    id: "",
-    userId: "",
-    taskId: "",
-    description: "",
-    status: "",
-    answeredAt: "",
+    id: '',
+    userId: '',
+    taskId: '',
+    description: '',
+    status: '',
+    answeredAt: '',
   } satisfies Model;
 }
 
@@ -51,9 +51,9 @@ export function json(answer: Json) {
 }
 
 export function isAwaiting(answer: Model) {
-  return answer.status === "awaiting";
+  return answer.status === 'awaiting';
 }
 
 export function isApproved(answer: Model) {
-  return answer.status === "approved";
+  return answer.status === 'approved';
 }

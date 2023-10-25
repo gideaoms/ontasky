@@ -1,5 +1,6 @@
 import { button } from "@/components/atoms/button";
 import { Message } from "@/components/atoms/message";
+import { UserModel } from "@/core/models";
 import { TaskRepository } from "@/core/repositories";
 import { isError } from "@/utils";
 import {
@@ -38,6 +39,9 @@ export default async function List(props: {
               Status
             </th>
             <th scope="col" className="px-6 py-3">
+              Created by
+            </th>
+            <th scope="col" className="px-6 py-3">
               Title
             </th>
             <th scope="col" className="px-6 py-3 text-center w-6">
@@ -46,43 +50,52 @@ export default async function List(props: {
           </tr>
         </thead>
         <tbody>
-          {tasks.map((team) => (
-            <tr key={team.id} className="border-b">
-              <td className="px-6 py-4 font-normal text-gray-900">
-                {match(team.status)
-                  .with("approved", function () {
-                    return (
-                      <ThumbsUp className="w-4 h-4 text-green-700 m-auto" />
-                    );
-                  })
-                  .with("awaiting", function () {
-                    return (
-                      <Hourglass className="w-4 h-4 text-violet-600 m-auto" />
-                    );
-                  })
-                  .with("disapproved", function () {
-                    return (
-                      <ThumbsDown className="w-4 h-4 text-red-700 m-auto" />
-                    );
-                  })
-                  .exhaustive()}
-              </td>
-              <td
-                scope="row"
-                className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap"
-              >
-                {team.title}
-              </td>
-              <td className="px-6 py-4 font-normal text-violet-600 text-center">
-                <Link
-                  href={`tasks/${team.id}?current_team_id=${props.currentTeamId}`}
-                  className="inline-block"
+          {tasks.map((team) => {
+            const owner = team.owner ?? UserModel.empty();
+            return (
+              <tr key={team.id} className="border-b">
+                <td className="px-6 py-4 font-normal text-gray-900">
+                  {match(team.status)
+                    .with("approved", function () {
+                      return (
+                        <ThumbsUp className="w-4 h-4 text-green-700 m-auto" />
+                      );
+                    })
+                    .with("awaiting", function () {
+                      return (
+                        <Hourglass className="w-4 h-4 text-violet-600 m-auto" />
+                      );
+                    })
+                    .with("disapproved", function () {
+                      return (
+                        <ThumbsDown className="w-4 h-4 text-red-700 m-auto" />
+                      );
+                    })
+                    .exhaustive()}
+                </td>
+                <td
+                  scope="row"
+                  className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap"
                 >
-                  <ClipboardEdit className="h-5 w-5" />
-                </Link>
-              </td>
-            </tr>
-          ))}
+                  {owner.email}
+                </td>
+                <td
+                  scope="row"
+                  className="px-6 py-4 font-normal text-gray-900 whitespace-nowrap"
+                >
+                  {team.title}
+                </td>
+                <td className="px-6 py-4 font-normal text-violet-600 text-center">
+                  <Link
+                    href={`tasks/${team.id}?current_team_id=${props.currentTeamId}`}
+                    className="inline-block"
+                  >
+                    <ClipboardEdit className="h-5 w-5" />
+                  </Link>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

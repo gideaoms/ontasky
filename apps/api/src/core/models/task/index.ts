@@ -1,9 +1,9 @@
-import { Observer } from "@ontasky/observer";
-import * as AnswerModel from "../answer/index.js";
-import * as UserModel from "../user/index.js";
-import * as TeamModel from "../team/index.js";
+import { Observer } from '@ontasky/observer';
+import * as AnswerModel from '../answer/index.js';
+import * as TeamModel from '../team/index.js';
+import * as UserModel from '../user/index.js';
 
-export type Status = "awaiting" | "approved" | "disapproved";
+export type Status = 'awaiting' | 'approved' | 'disapproved';
 
 export type Model = {
   readonly id: string;
@@ -20,8 +20,10 @@ export type Model = {
 
 export type Json = {
   readonly id?: string;
+  readonly owner_id?: string;
   readonly title?: string;
   readonly description?: string;
+  readonly status?: string;
   readonly owner?: UserModel.Json;
   readonly approvers?: UserModel.Json[];
   readonly answers?: AnswerModel.Json[];
@@ -45,12 +47,12 @@ export function build(task: Partial<Model>) {
 
 export function empty() {
   return {
-    id: "",
-    ownerId: "",
-    teamId: "",
-    title: "",
-    description: "",
-    status: "awaiting",
+    id: '',
+    ownerId: '',
+    teamId: '',
+    title: '',
+    description: '',
+    status: 'awaiting',
   } satisfies Model;
 }
 
@@ -63,11 +65,11 @@ export const subscribers = {
 };
 
 export function statusByAnswers(answers: AnswerModel.Model[]) {
-  if (answers.every((answer) => answer.status === "approved")) {
-    return "approved";
+  if (answers.every((answer) => answer.status === 'approved')) {
+    return 'approved';
   }
-  if (answers.every((answer) => answer.status === "disapproved")) {
-    return "disapproved";
+  if (answers.some((answer) => answer.status === 'disapproved')) {
+    return 'disapproved';
   }
-  return "awaiting";
+  return 'awaiting';
 }

@@ -1,5 +1,5 @@
-import { UserModel } from "@/core/models/index.js";
+import { UserModel } from '@/core/models/index.js';
 
 export type Query = {
-  findMany(teamId: string, userId: string): Promise<UserModel.Json[]>;
+  findMany(teamId: string): Promise<UserModel.Json[]>;
 };

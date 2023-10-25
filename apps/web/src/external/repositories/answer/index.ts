@@ -1,13 +1,13 @@
-import { TaskModel, AnswerModel, UserModel } from "@/core/models";
-import { AnswerRepository } from "@/core/repositories";
-import { api } from "@/external/libs/api";
-import { isOkStatus } from "@/utils";
-import { P, match } from "ts-pattern";
-import { z } from "zod";
+import { AnswerModel, TaskModel, UserModel } from '@/core/models';
+import { AnswerRepository } from '@/core/repositories';
+import { api } from '@/external/libs/api';
+import { isOkStatus } from '@/utils';
+import { match, P } from 'ts-pattern';
+import { z } from 'zod';
 
 export class Repository implements AnswerRepository.Repository {
   async findMany(teamId: string) {
-    const result = await api.get("answers", {
+    const result = await api.get('answers', {
       params: TaskModel.json({ team_id: teamId }),
     });
     if (!isOkStatus(result.status)) {
@@ -18,7 +18,7 @@ export class Repository implements AnswerRepository.Repository {
       .array(
         z.object({
           id: z.string(),
-          status: z.enum(["awaiting", "approved", "disapproved"]),
+          status: z.enum(['awaiting', 'approved', 'disapproved']),
           answered_at: z.string().optional(),
           task: z.object({
             title: z.string(),
@@ -26,7 +26,7 @@ export class Repository implements AnswerRepository.Repository {
               email: z.string(),
             }),
           }),
-        })
+        }),
       )
       .parse(result.data);
     return parsed.map((answer) =>
@@ -37,9 +37,10 @@ export class Repository implements AnswerRepository.Repository {
         task: TaskModel.build({
           title: match(answer.task.title.length)
             .with(P.number.gt(140), () =>
-              answer.task.title.substring(0, 140).concat("...")
-            )
-            .otherwise(() => answer.task.title),
+              answer.task.title.substring(0, 140).concat('...'))
+            .otherwise(() =>
+              answer.task.title
+            ),
           owner: UserModel.build({
             email: answer.task.owner.email,
           }),
@@ -56,11 +57,10 @@ export class Repository implements AnswerRepository.Repository {
       const parsed = z.object({ message: z.string() }).parse(result.data);
       return new Error(parsed.message);
     }
-    console.log({ result });
     const parsed = z
       .object({
         id: z.string(),
-        status: z.enum(["awaiting", "approved", "disapproved"]),
+        status: z.enum(['awaiting', 'approved', 'disapproved']),
         description: z.string().optional(),
         answered_at: z.string().optional(),
         task: z.object({
@@ -96,7 +96,7 @@ export class Repository implements AnswerRepository.Repository {
       AnswerModel.json({
         team_id: task.teamId,
         description: answer.description,
-      })
+      }),
     );
     if (!isOkStatus(result.status)) {
       const parsed = z.object({ message: z.string() }).parse(result.data);
@@ -111,7 +111,7 @@ export class Repository implements AnswerRepository.Repository {
       AnswerModel.json({
         team_id: task.teamId,
         description: answer.description,
-      })
+      }),
     );
     if (!isOkStatus(result.status)) {
       const parsed = z.object({ message: z.string() }).parse(result.data);

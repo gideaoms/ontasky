@@ -1,10 +1,10 @@
-import { AnswerModel, TaskModel } from "@/core/models/index.js";
-import { AnswerRepository } from "@/core/repositories/index.js";
-import { db } from "@/libs/knex.js";
+import { AnswerModel, TaskModel } from '@/core/models/index.js';
+import { AnswerRepository } from '@/core/repositories/index.js';
+import { db } from '@/libs/knex.js';
 
 export class Repository implements AnswerRepository.Repository {
   async findById(answerId: string) {
-    const [row] = await db.from("users_on_tasks").where("id", answerId);
+    const [row] = await db.from('users_on_tasks').where('id', answerId);
     if (!row) {
       return null;
     }
@@ -20,9 +20,9 @@ export class Repository implements AnswerRepository.Repository {
 
   async findByPk(approverId: string, taskId: string) {
     const [row] = await db
-      .from("users_on_tasks")
-      .where("user_id", approverId)
-      .andWhere("task_id", taskId);
+      .from('users_on_tasks')
+      .where('user_id', approverId)
+      .andWhere('task_id', taskId);
     if (!row) {
       return null;
     }
@@ -38,11 +38,11 @@ export class Repository implements AnswerRepository.Repository {
 
   async findManyNotIn(taskId: string, approvers: Array<{ id: string }>) {
     const rows = await db
-      .from("users_on_tasks")
-      .where("task_id", taskId)
+      .from('users_on_tasks')
+      .where('task_id', taskId)
       .whereNotIn(
-        "user_id",
-        approvers.map((approver) => approver.id)
+        'user_id',
+        approvers.map((approver) => approver.id),
       );
     return rows.map((row) =>
       AnswerModel.build({
@@ -59,31 +59,32 @@ export class Repository implements AnswerRepository.Repository {
   async update(answer: AnswerModel.Model) {
     return db.transaction(async (trx) => {
       const [row] = await trx
-        .table("users_on_tasks")
+        .table('users_on_tasks')
         .update({
           description: answer.description,
           status: answer.status,
           answered_at: answer.answeredAt,
           updated_at: new Date(),
         })
-        .where("id", answer.id)
-        .returning("*");
+        .where('id', answer.id)
+        .returning('*');
       const usersOnTasks = await trx
-        .select("status")
-        .from("users_on_tasks")
-        .where("task_id", answer.taskId);
+        .select('status')
+        .from('users_on_tasks')
+        .where('task_id', answer.taskId);
       const answers = usersOnTasks.map((userOnTask) =>
         AnswerModel.build({
           status: userOnTask.status,
         })
       );
+      console.log({ answers });
       const status = TaskModel.statusByAnswers(answers);
       await trx
-        .table("tasks")
+        .table('tasks')
         .update({
           status,
         })
-        .where("id", answer.taskId);
+        .where('id', answer.taskId);
       return AnswerModel.build({
         id: row.id,
         userId: row.user_id,

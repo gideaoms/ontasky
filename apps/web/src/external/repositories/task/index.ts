@@ -1,13 +1,13 @@
-import { TaskModel, AnswerModel, UserModel } from "@/core/models";
-import { TaskRepository } from "@/core/repositories";
-import { api } from "@/external/libs/api";
-import { isOkStatus } from "@/utils";
-import { P, match } from "ts-pattern";
-import { z } from "zod";
+import { AnswerModel, TaskModel, UserModel } from '@/core/models';
+import { TaskRepository } from '@/core/repositories';
+import { api } from '@/external/libs/api';
+import { isOkStatus } from '@/utils';
+import { match, P } from 'ts-pattern';
+import { z } from 'zod';
 
 export class Repository implements TaskRepository.Repository {
   async findMany(teamId: string) {
-    const result = await api.get("tasks", {
+    const result = await api.get('tasks', {
       params: TaskModel.json({ team_id: teamId }),
     });
     if (!isOkStatus(result.status)) {
@@ -19,8 +19,11 @@ export class Repository implements TaskRepository.Repository {
         z.object({
           id: z.string(),
           title: z.string(),
-          status: z.enum(["awaiting", "approved", "disapproved"]),
-        })
+          status: z.enum(['awaiting', 'approved', 'disapproved']),
+          owner: z.object({
+            email: z.string(),
+          }),
+        }),
       )
       .parse(result.data);
     return parsed.map((task) =>
@@ -28,10 +31,14 @@ export class Repository implements TaskRepository.Repository {
         id: task.id,
         title: match(task.title.length)
           .with(P.number.gt(140), () =>
-            task.title.substring(0, 140).concat("...")
-          )
-          .otherwise(() => task.title),
+            task.title.substring(0, 140).concat('...'))
+          .otherwise(() =>
+            task.title
+          ),
         status: task.status,
+        owner: UserModel.build({
+          email: task.owner.email,
+        }),
       })
     );
   }
@@ -47,25 +54,36 @@ export class Repository implements TaskRepository.Repository {
     const parsed = z
       .object({
         id: z.string(),
+        owner_id: z.string(),
         title: z.string(),
         description: z.string(),
+        owner: z.object({
+          id: z.string(),
+          email: z.string(),
+        }),
         approvers: z.array(z.object({ id: z.string() })),
         answers: z.array(
           z.object({
             id: z.string(),
             description: z.string().optional(),
-            status: z.enum(["awaiting", "approved", "disapproved"]),
+            status: z.enum(['awaiting', 'approved', 'disapproved']),
             approver: z.object({
+              id: z.string(),
               email: z.string(),
             }),
-          })
+          }),
         ),
       })
       .parse(result.data);
     return TaskModel.build({
       id: parsed.id,
+      ownerId: parsed.owner_id,
       title: parsed.title,
       description: parsed.description,
+      owner: UserModel.build({
+        id: parsed.owner.id,
+        email: parsed.owner.email,
+      }),
       approvers: parsed.approvers.map((approver) =>
         UserModel.build({
           id: approver.id,
@@ -77,6 +95,7 @@ export class Repository implements TaskRepository.Repository {
           description: answer.description,
           status: answer.status,
           approver: UserModel.build({
+            id: answer.approver.id,
             email: answer.approver.email,
           }),
         })
@@ -86,7 +105,7 @@ export class Repository implements TaskRepository.Repository {
 
   async create(task: TaskModel.Model, approvers: UserModel.Model[]) {
     const result = await api.post(
-      "tasks",
+      'tasks',
       TaskModel.json({
         team_id: task.teamId,
         title: task.title,
@@ -96,7 +115,7 @@ export class Repository implements TaskRepository.Repository {
             id: approver.id,
           })
         ),
-      })
+      }),
     );
     if (!isOkStatus(result.status)) {
       const parsed = z.object({ message: z.string() }).parse(result.data);
@@ -126,7 +145,7 @@ export class Repository implements TaskRepository.Repository {
             id: approver.id,
           })
         ),
-      })
+      }),
     );
     if (!isOkStatus(result.status)) {
       const parsed = z.object({ message: z.string() }).parse(result.data);

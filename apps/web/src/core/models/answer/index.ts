@@ -1,7 +1,7 @@
-import * as TaskModel from "../task";
-import * as UserModel from "../user";
+import * as TaskModel from '../task';
+import * as UserModel from '../user';
 
-export type Status = "awaiting" | "approved" | "disapproved";
+export type Status = 'awaiting' | 'approved' | 'disapproved';
 
 export type Model = {
   readonly id: string;
@@ -31,25 +31,29 @@ export function build(answer: Partial<Model>) {
 
 export function empty() {
   return {
-    id: "",
-    description: "",
-    status: "awaiting",
-    answeredAt: "",
+    id: '',
+    description: '',
+    status: 'awaiting',
+    answeredAt: '',
   } satisfies Model;
 }
 
 export function isAwaiting(answer: Model) {
-  return answer.status === "awaiting";
+  return answer.status === 'awaiting';
 }
 
 export function isDisapproved(answer: Model) {
-  return answer.status === "disapproved";
+  return answer.status === 'disapproved';
 }
 
 export function isApproved(answer: Model) {
-  return answer.status === "approved";
+  return answer.status === 'approved';
 }
 
 export function json(answer: Json) {
   return answer;
+}
+
+export function isApprover(answer: Model, currentApproverId: string) {
+  return answer.approver?.id === currentApproverId;
 }

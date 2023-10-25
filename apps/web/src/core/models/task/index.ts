@@ -1,6 +1,6 @@
-import { AnswerModel, UserModel } from "@/core/models";
+import { AnswerModel, UserModel } from '@/core/models';
 
-export type Status = "awaiting" | "approved" | "disapproved";
+export type Status = 'awaiting' | 'approved' | 'disapproved';
 
 export type Model = {
   readonly id: string;
@@ -41,16 +41,23 @@ export function build(task: Partial<Model>) {
 
 export function empty() {
   return {
-    id: "",
-    ownerId: "",
-    teamId: "",
-    title: "",
-    description: "",
-    status: "awaiting",
-    answeredAt: "",
+    id: '',
+    ownerId: '',
+    teamId: '',
+    title: '',
+    description: '',
+    status: 'awaiting',
+    answeredAt: '',
   } satisfies Model;
 }
 
 export function json(task: Json) {
   return task;
+}
+
+export function isOwner(task: Model, userId: string) {
+  if (task.id === '') {
+    return true;
+  }
+  return task.ownerId === userId;
 }
