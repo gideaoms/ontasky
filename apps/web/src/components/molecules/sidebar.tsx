@@ -28,11 +28,6 @@ export function Sidebar(props: { currentTeamId: string }) {
           icon={CalendarCheck}
           title="Tasks"
         />
-        <NavItem
-          href={`/answers?current_team_id=${props.currentTeamId}`}
-          icon={ListTodo}
-          title="Answers"
-        />
       </nav>
       <div className="mt-auto flex flex-col items-center gap-2">
         <Team />
