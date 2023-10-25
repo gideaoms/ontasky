@@ -66,10 +66,10 @@ export class Query implements TaskQuery.Query {
         .where('tasks.id', taskId)
         .where('tasks.owner_id', userId)
         .where('tasks.team_id', teamId)
-        .innerJoin('users_on_tasks', query => {
+        .leftJoin('users_on_tasks', query => {
           query.on('users_on_tasks.task_id', '=', 'tasks.id');
         })
-        .innerJoin('users as approvers', query => {
+        .leftJoin('users as approvers', query => {
           query.on('approvers.id', '=', 'users_on_tasks.user_id');
         })
         .innerJoin('users as owner', query => {
