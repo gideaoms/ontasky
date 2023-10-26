@@ -1,20 +1,19 @@
 "use client";
 
-import { Button, button } from "@/components/atoms/button";
+import { Button } from "@/components/atoms/button";
 import { Checkbox } from "@/components/atoms/checkbox";
 import { Input } from "@/components/atoms";
 import { AnswerModel, TaskModel, UserModel } from "@/core/models";
 import { SessionContext, TaskContext } from "@/external/contexts";
 import { isError } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { match } from "ts-pattern";
 import clsx from "clsx";
-import { Fragment, useMemo } from "react";
+import { Fragment } from "react";
 import { ApproverForm } from "@/components/organisms/task/form/approver";
 
 const schema = z
@@ -42,7 +41,6 @@ export function Form(props: {
   users: UserModel.Model[];
   currentTeamId: string;
 }) {
-  console.log(props.task);
   const router = useRouter();
   const { formState, handleSubmit, control } = useForm<
     z.input<typeof schema>,
@@ -70,11 +68,6 @@ export function Form(props: {
   const { taskRepository } = TaskContext.useContext();
   const { user } = SessionContext.useContext();
   const owner = props.task.owner ?? UserModel.empty();
-  const isAwaitingCurrentUserAnswer = useMemo(() => {
-    return props.task.answers
-      ?.filter((answer) => answer.status === "awaiting")
-      .some((answer) => answer.approver?.id === user?.id);
-  }, [props.task.id, user?.id]);
 
   async function save(
     title: string,
@@ -98,8 +91,6 @@ export function Form(props: {
     router.refresh();
     toast.success("Task saved");
   }
-
-  console.log({ fields });
 
   return (
     <form
@@ -177,7 +168,7 @@ export function Form(props: {
       <div className="flex flex-col gap-2 mt-4">
         <Input.Label>Approvers</Input.Label>
         {match(fields.length)
-          .with(0, () => (
+          .with(1, () => (
             <span className="text-xs text-gray-600">
               There is no other member in your team yet.
             </span>
