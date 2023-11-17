@@ -1,3 +1,4 @@
+import { Form } from "@/app/form";
 import Link from "next/link";
 
 export default function Home() {
@@ -25,28 +26,18 @@ export default function Home() {
               Ontasky is a tool which helps you to ask for approval from other
               people in your company.
             </h1>
-            <form className="flex gap-2 justify-center">
-              <input
-                placeholder="example@mail.com"
-                className="border p-2 rounded"
-              />
-              <button
-                type="submit"
-                className="bg-violet-700 text-white p-2 rounded"
-              >
-                Free trial
-              </button>
-            </form>
+            <Form />
           </div>
-          <div className="text-sm text-slate-600 my-14 w-fit mx-auto p-2">
-            <p className="text-lg">How it works: </p>
+          <div className="text-sm text-slate-600 my-14 p-2 text-center">
+            <p className="text-lg font-bold">How it works: </p>
             <br />
             <ul className="space-y-1">
-              <li>1. Sign up on Ontasky</li>
-              <li>2. Register your company</li>
-              <li>3. Register your team members</li>
+              <li>&#x2022; Sign up on Ontasky</li>
+              <li>&#x2022; Register your company</li>
+              <li>&#x2022; Register your team members</li>
               <li>
-                4. Create a task and add one or more team members to approve it.
+                &#x2022; Create a task and add one or more team members to
+                approve it.
               </li>
             </ul>
             <br />
