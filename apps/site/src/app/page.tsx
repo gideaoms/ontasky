@@ -20,8 +20,8 @@ export default function Home() {
           </ul>
         </header>
         <main className="flex-1 flex flex-col">
-          <div className="flex-1 flex flex-col justify-center">
-            <h1 className="text-4xl text-black text-center mb-14">
+          <div className="flex-1 flex flex-col justify-center items-center">
+            <h1 className="text-4xl text-black text-center mb-14 max-w-4xl">
               Ontasky is a tool which helps you to ask for approval from other
               people in your company.
             </h1>
