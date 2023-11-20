@@ -88,7 +88,7 @@ export default function Page() {
         >
           Sign In
         </Button>
-        <p className="text-sm text-zinc-700">
+        {/* <p className="text-sm text-zinc-700">
           Don't have an account?{" "}
           <Link
             href="/sign-up"
@@ -96,7 +96,7 @@ export default function Page() {
           >
             Create account
           </Link>
-        </p>
+        </p> */}
       </form>
     </div>
   );
