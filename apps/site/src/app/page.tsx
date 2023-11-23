@@ -12,13 +12,13 @@ export default function Home() {
             </strong>
             <span className="text-xs ml-2">beta</span>
           </Link>
-          <ul className="hover:underline">
+          {/* <ul className="hover:underline">
             <li>
               <a href="https://dashboard.ontasky.com" target="_blank">
                 Login
               </a>
             </li>
-          </ul>
+          </ul> */}
         </header>
         <main className="flex-1 flex flex-col">
           <div className="flex-1 flex flex-col justify-center items-center">
