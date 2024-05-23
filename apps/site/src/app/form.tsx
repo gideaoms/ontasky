@@ -23,12 +23,16 @@ export function Form() {
         placeholder="Enter your email"
         type="email"
         onChange={(e) => setEmail(e.target.value)}
+        name="email"
+        value={email}
+        required
       />
       <Button
         className="bg-white text-[#6366F1] hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#6366F1]"
         type="submit"
+        disabled={isSending}
       >
-        Get Early Access
+        Free trial
       </Button>
     </form>
   );
