@@ -1,6 +1,8 @@
 "use client";
 
 import { sendEmail } from "@/app/actions";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 export function Form() {
@@ -15,23 +17,19 @@ export function Form() {
   }
 
   return (
-    <form className="flex gap-2 justify-center" action={submit}>
-      <input
-        placeholder="example@mail.com"
-        className="border p-2 rounded"
+    <form className="flex w-full max-w-md mx-auto space-x-2" action={submit}>
+      <Input
+        className="flex-1 bg-white/10 text-white placeholder:text-gray-300 focus:bg-white/20"
+        placeholder="Enter your email"
         type="email"
-        name="email"
-        value={email}
         onChange={(e) => setEmail(e.target.value)}
-        required
       />
-      <button
-        disabled={isSending}
+      <Button
+        className="bg-white text-[#6366F1] hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#6366F1]"
         type="submit"
-        className="bg-violet-700 text-white p-2 rounded"
       >
-        Free trial
-      </button>
+        Get Early Access
+      </Button>
     </form>
   );
 }

@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Libre_Franklin } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const libre_franklin = Libre_Franklin({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-libre_franklin",
+});
 
 export const metadata: Metadata = {
   title: "Ontasky",
@@ -13,7 +17,7 @@ export const metadata: Metadata = {
 export default function Layout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{props.children}</body>
+      <body className={libre_franklin.variable}>{props.children}</body>
     </html>
   );
 }
